@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ACME - Design Company</title>
+        <script>
+            function handleNewsletterSubmit() {
+                const emailInput = document.getElementById('email-input');
+                const nameInput = document.getElementById('name-input');
+                const successMessage = document.getElementById('success-message');
+
+                if (emailInput.value && nameInput.value) {
+                    successMessage.textContent = `Thank you for subscribing, ${nameInput.value}!`;
+                    successMessage.style.display = 'block';
+                    emailInput.value = '';
+                    nameInput.value = '';
+                } else {
+                    alert('Please enter both your name and email to subscribe.');
+                }
+            }
+        </script>
+    </head>
+    <body style="background-color: #faf8f3; color: #333333; font-family: Arial, sans-serif">
+        <header style="background-color: #f5e6d3; padding: 20px; text-align: center">
+            <h1 style="margin: 0">ACME Design</h1>
+            <p style="margin: 5px 0">Creative Design Solutions</p>
+            <nav>
+                <a href="#about">About</a>
+                <span> | </span>
+                <a href="#team">Team</a></span>
+                <span> | </span>
+                <a href="#newsletter">Newsletter</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section id="hero" style="background-color: #e8d5c4; padding: 60px 20px; text-align: center">
+                <h2 style="font-size: 48px; margin: 0 0 20px 0">Welcome to ACME</h2>
+                <p style="font-size: 18px; margin: 0 0 20px 0">
+                    Where creativity meets innovation. We design exceptional experiences for brands worldwide.
+                </p>
+                <img
+                    src="https://placehold.co/600x300/d4a5a5/ffffff/webp?text=ACME+Design"
+                    alt="ACME Design Hero"
+                    style="max-width: 100%; height: auto"
+                />
+            </section>
+
+            <!-- About Us Section -->
+            <section id="about" style="padding: 40px 20px; background-color: #f9f3eb">
+                <div style="max-width: 800px; margin: auto">
+                    <h2 style="text-align: center; color: #b896a0">About Us</h2>
+                    <p>
+                        ACME is a leading design company dedicated to creating beautiful, functional, and innovative design solutions.
+                        With over a decade of experience, we help brands tell their stories through stunning visual design.
+                    </p>
+                    <p>
+                        Our mission is simple: to deliver exceptional design that inspires, engages, and converts. We believe in the
+                        power of good design to transform businesses and create meaningful connections with audiences.
+                    </p>
+                    <p>
+                        <b>What we do:</b> Branding, Web Design, Graphic Design, UI/UX, and Creative Consulting.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section id="team" style="padding: 40px 20px; background-color: #f0e5db">
+                <h2 style="text-align: center; color: #b896a0">Our Team</h2>
+                <div style="max-width: 900px; margin: auto">
+                    <article style="display: inline-block; width: 33%; text-align: center">
+                        <img
+                            src="https://placehold.co/150x150/d9c6d6/ffffff/webp?text=Team+Member"
+                            alt="Team Member 1"
+                        />
+                        <h3 style="color: #a08fa8">Sarah Johnson</h3>
+                        <p><b>Creative Director</b></p>
+
+                    </article>
+
+                    <article style="display: inline-block; width: 33%; text-align: center">
+                        <img
+                            src="https://placehold.co/150x150/d9c9c6/ffffff/webp?text=Team+Member"
+                            alt="Team Member 2"
+                        />
+                        <h3 style="color: #a08fa8">Michael Chen</h3>
+                        <p><b>Lead Designer</b></p>
+
+                    </article>
+
+                    <article style="display: inline-block; width: 33%; text-align: center">
+                        <img
+                            src="https://placehold.co/150x150/d6d9c9/ffffff/webp?text=Team+Member"
+                            alt="Team Member 3"
+                        />
+                        <h3 style="color: #a08fa8">Emma Williams</h3>
+                        <p><b>UX Specialist</b></p>
+
+                    </article>
+                </div>
+            </section>
+
+            <!-- Newsletter Section -->
+            <section id="newsletter" style="padding: 40px 20px; background-color: #e8d5c4; text-align: center">
+                <div style="max-width: 600px; margin: auto">
+                    <h2 style="color: #b896a0">Stay Updated</h2>
+                    <p>Subscribe to our newsletter for design tips, project updates, and creative inspiration.</p>
+                    <div style="display: flex; flex-direction: column; gap: 10px">
+                        <input
+                            id="email-input"
+                            type="email"
+                            placeholder="Enter your email"
+                            style="padding: 10px; border: 1px solid #d4a5a5; border-radius: 4px"
+                            required
+                        />
+                        <input
+                            id="name-input"
+                            type="text"
+                            placeholder="Your name"
+                            style="padding: 10px; border: 1px solid #d4a5a5; border-radius: 4px"
+                            required
+                        />
+                        <input
+                            type="submit"
+                            style="padding: 12px; background-color: #d4a5a5; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px"
+                            value="Subscribe"
+                            onclick="handleNewsletterSubmit()"
+                        />
+                    </div>
+                    <div id="success-message" style="display: none"></div>
+                </div>
+            </section>
+        </main>
+
+        <hr style="border: none; border-top: 1px solid #d4a5a5; margin: 40px 0" />
+
+        <footer style="text-align: center; padding: 20px; background-color: #f5e6d3">
+            <p>&copy; 2026 ACME Design. All rights reserved.</p>
+            <p style="font-size: 12px; color: #999999">Crafted with care and creativity.</p>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>SimpleGPT - Simple Chat Interface</title>
+    </head>
+    <body style="background-color: #212121; color: #fff">
+        <!-- changing the color of a parent changes all the childrens inside -->
+        <header>
+            <h1 style="text-align: center">Simple GPT</h1>
+        </header>
+
+        <main>
+            <section id="chat-container" style="width: 50%; margin: auto">
+                <div id="chat-messages">
+                    <div>
+                        <p>
+                            <span>
+                                <img
+                                    src="https://placehold.co/24x24/green/black/webp?text=A"
+                                    alt="gpt avatar"
+                                />
+                            </span>
+                            <strong>Assistant:</strong> Hello! I'm Brut GPT. How
+                            can I help you today?
+                        </p>
+                    </div>
+
+                    <div style="text-align: right">
+                        <p><b>You:</b> What is Lorem Ipsum?</p>
+                    </div>
+
+                    <div>
+                        <p>
+                            <span>
+                                <img
+                                    src="https://placehold.co/24x24/green/black/webp?text=A"
+                                    alt="gpt avatar"
+                                />
+                            </span>
+                            <b>Assistant:</b> Lorem Ipsum is simply dummy text
+                            of the printing and typesetting industry. It has
+                            been the <u>industry's standard dummy text</u> ever
+                            since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type
+                            specimen book.
+                        </p>
+                    </div>
+
+                    <div style="text-align: right">
+                        <p><b>You:</b> Can you tell me more?</p>
+                    </div>
+
+                    <div>
+                        <p>
+                            <span>
+                                <img
+                                    src="https://placehold.co/24x24/green/black/webp?text=A"
+                                    alt="gpt avatar"
+                                />
+                            </span>
+                            <b>Assistant:</b> Certainly! Lorem Ipsum has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It is used because of its neutral
+                            appearance - the letters generate a somewhat random,
+                            yet recognizable pattern that doesn't distract from
+                            the visual layout of the page.
+                        </p>
+                    </div>
+
+                    <div style="text-align: right">
+                        <p><b>You:</b> Thanks for the information!</p>
+                    </div>
+
+                    <div>
+                        <p>
+                            <span>
+                                <img
+                                    src="https://placehold.co/24x24/green/black/webp?text=A"
+                                    alt="gpt avatar"
+                                />
+                            </span>
+                            <b>Assistant:</b> ...
+                        </p>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div>
+                    <span>
+                        <input
+                            type="button"
+                            value="+"
+                            style="width: 32px; height: 32px"
+                        />
+                        <input
+                            type="text"
+                            id="message-input"
+                            placeholder="Ask anything..."
+                            style="width: 80%; height: 32px"
+                            required
+                        />
+                        <!-- this doesn't let to submit the form if empty -->
+                        <input
+                            type="button"
+                            value=">"
+                            style="width: 32px; height: 32px"
+                            onclick="sendMessage()"
+                        />
+                    </span>
+                </div>
+            </section>
+        </main>
+        <script>
+            function sendMessage() {
+                const input = document.getElementById("message-input");
+                const message = input.value;
+                alert(message);
+                // you can change alert to a console log
+            }
+        </script>
+    </body>
+</html>

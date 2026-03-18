@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>My portfolio</title>
+    </head>
+    <body>
+        <header>
+            <!-- or div -->
+            <h1>My Portfolio</h1>
+            <!-- You could use a `div` but `nav` is more sematically correct -->
+            <nav>
+                <a href="#about">About</a>
+                <span> | </span>
+                <a href="#projects">Projects</a>
+                <span> | </span>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- or div -->
+            <!-- You could again use `div` but section gives more the idea -->
+            <section id="about">
+                <h2>About Me</h2>
+                <p>
+                    Lorem ipsum dolor sit amet,
+                    <b>consectetur adipiscing elit</b>. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.<br />
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <img
+                    src="https://placehold.co/128x128/webp?text=User"
+                    alt="Profile picture"
+                />
+            </section>
+
+            <section id="projects">
+                <h2>Projects</h2>
+
+                <article>
+                    <h3 style="color: forestgreen">Project One</h3>
+                    <img
+                        src="https://placehold.co/600x400/acqua/purple/webp?text=Project+One"
+                        alt="Project One"
+                    />
+                    <p>
+                        <i>Lorem ipsum dolor</i> sit amet, consectetur
+                        adipiscing elit. Duis aute irure dolor in reprehenderit
+                        in voluptate velit esse cillum dolore eu fugiat nulla
+                        pariatur.
+                    </p>
+                </article>
+
+                <article>
+                    <!-- or div -->
+                    <h3 style="color: forestgreen">Project Two</h3>
+                    <img
+                        src="https://placehold.co/600x400/orange/white/webp?text=Project+Two"
+                        alt="Project Two"
+                    />
+                    <p>
+                        <i>Excepteur sint</i> occaecat cupidatat non proident,
+                        sunt in culpa qui officia deserunt mollit anim id est
+                        laborum. Sed ut perspiciatis unde omnis iste natus error
+                        sit voluptatem accusantium doloremque.
+                    </p>
+                </article>
+
+                <article>
+                    <h3 style="color: forestgreen">Project Three</h3>
+                    <img
+                        src="https://placehold.co/600x400/yellow/brown/webp?text=Project+Three"
+                        alt="Project Three"
+                    />
+                    <p>
+                        <i>Nemo enim ipsam voluptatem</i>
+                        quia voluptas sit aspernatur aut odit aut fugit, sed
+                        quia consequuntur magni dolores eos qui ratione
+                        voluptatem sequi nesciunt.
+                    </p>
+                </article>
+            </section>
+
+            <section id="contact">
+                <h2>Contact</h2>
+                <p>Get in touch with me:</p>
+                <ul>
+                    <!-- You haven't done list yet but they are useful: `ul` stands for unordered list. Try changing in `ol` which is oredered. -->
+                    <li><a href="mailto:email@example.com">Email</a></li>
+                    <!-- `li` is each single element -->
+                    <li><a href="https://twitter.com">Twitter</a></li>
+                    <li><a href="https://github.com">GitHub</a></li>
+                </ul>
+            </section>
+        </main>
+
+        <hr />
+
+        <footer style="text-align: center">
+            <!-- or div. text-align is an property useful to align text -->
+            <p>&copy; 2026 My Portfolio. All rights reserved.</p>
+        </footer>
+    </body>
+</html>
