@@ -1,90 +1,50 @@
-# HTML & JavaScript Coding Assignments
+# tutorato-01 — Course Exercises and Examples
 
-The assignments increase in difficulty, starting with a basic portfolio and ending with a styled company landing page.
-
----
-
-## Assignment 1: Personal Portfolio (Level: Easy)
-
-Build a single-page personal portfolio. The goal is to focus on **Semantic HTML** structure.
-
-### Requirements:
-- **Navigation:** Create a header with a title and links to "About", "Projects", and "Contact" using an `<a>` tag.
-- **Content Sections:** 
-    - Use `<section>` tags for each main part of the page.
-    - An **About** section with a profile picture and a paragraph of "Lorem Ipsum" text.
-    - A **Projects** section with at least three `<article>` elements. Each article should contain a title, a project image, and a description.
-- **Styling:** Use a few inline `style` attributes to change the color of project titles (e.g., `color: forestgreen`).
-- **Assets:**
-    - Profile Image: `https://placehold.co/128x128/webp?text=User`
-    - Project Images: `https://placehold.co/600x400/acqua/purple/webp?text=Project+One` (vary colors for others).
-
-
-### Preview:
-![Portfolio Layout Preview](./final_websites/portfolio.png)
+I wrote this README to help you navigate the exercises and find the most relevant files quickly.
 
 ---
 
-## Assignment 2: SimpleGPT Chat Interface (Level: Medium)
+## Quick Project Overview
 
-Create a simplified chat interface that mimics an LLM (Large Language Model) conversation. This assignment focuses on **Layout** and **Simple Interactivity**.
+- `html-01/` — A collection of HTML-focused assignments and small websites. Each assignment demonstrates semantic HTML, layout, and small amounts of inline styling and JavaScript.
+  - Notable files:
+    - `html-01/portfolio.html` — Assignment: personal portfolio.
+    - `html-01/simplegpt.html` — Assignment: simple chat UI mockup.
+    - `html-01/company.html` — Assignment: company landing page (ACME Design).
+    - `html-01/tips.md` — Helpful tips and best practices.
+    - `html-01/final_websites/` — Preview images and exported assets.
+  - See `html-01/README.md` for detailed descriptions of each assignment, requirements, and preview images.
 
-### Requirements:
-- **Dark Mode UI:** Use inline styles on the `<body>` to set a dark background (`#212121`) and white text (`#ffffff`).
-- **Chat History:** 
-    - Create a container for messages.
-    - Use `text-align: right` for "User" messages and default alignment for "Assistant" messages.
-    - Add small avatar images for the assistant.
-- **Input Area:** 
-    - A text `<input>` for typing messages.
-    - A button with the value `>` to "send" the message.
-- **JavaScript Functionality:**
-    - Write a function `sendMessage()`.
-    - When the `>` button is clicked, it should read the value of the input and display it in a browser `alert(message)`.
-- **Assets:**
-    - Assistant Avatar: `https://placehold.co/24x24/green/black/webp?text=A`
-
-### Preview:
-![Chat Interface Preview](./final_websites/simplegpt.png)
+- `js-01/` — JavaScript-focused exercises (logic, DOM interaction, and small scripts).
+  - Notable files:
+    - `js-01/README.md` — Narrative-driven exercises (variables, conditionals, functions, arrays, and interactive bonus).
+    - `js-01/solutions/` — (If present) example solutions and starter code.
+  - The exercises are written as short stories to make the learning process engaging (e.g., the Robot Barista).
 
 ---
 
-## Assignment 3: ACME Design Landing Page (Level: Hard)
+## How the repository is organized (what you'll see on GitHub)
 
-Create a professional landing page for "ACME Design," a creative agency. This assignment focuses on **Advanced Layouts** and **DOM Manipulation**.
+1. Open the repository root (this folder).
+2. Click into the `html-01/` folder to view HTML assignments and their README with screenshots.
+3. Click into the `js-01/` folder to view JavaScript exercises and the narrative instructions.
 
-### Requirements:
-- **Design Theme:** Use a "Pastel" color palette.
-    - Background: `#faf8f3`
-    - Header/Footer: `#f5e6d3`
-    - Buttons/Accents: `#d4a5a5`
-- **Sections:**
-    - **Hero Section:** A large centered heading, a subtitle, and a wide hero image.
-    - **Team Section:** Display three team members side-by-side using `display: inline-block` and a width of roughly `30%`.
-    - **Newsletter Form:** A section with two inputs (Name and Email) and a "Subscribe" button.
-- **JavaScript Functionality:**
-    - Create a function `handleNewsletterSubmit()`.
-    - The function should check if both the Name and Email fields are filled.
-    - **Success Message:** Instead of an alert, the script should find an empty `<div>` (or `<p>`) with a specific ID and update its `textContent` to say: *"Thank you for subscribing, [Name]!"*. 
-    - The inputs should be cleared after the message appears.
-- **Assets:**
-    - Hero Image: `https://placehold.co/600x300/d4a5a5/ffffff/webp?text=ACME+Design`
-    - Team Avatars: `https://placehold.co/150x150/d9c6d6/ffffff/webp?text=Team+Member`
+On GitHub the folder README files are rendered automatically, so open:
+- `html-01/README.md`
+- `js-01/README.md`
 
-### Preview:
-![Company Landing Page Preview](./final_websites/company.png)
+to read the step-by-step instructions and requirements for each exercise.
 
 ---
 
-## Summary of Tools to Use
+## How to use the exercises
 
-| Feature | Tool / Attribute |
-| :--- | :--- |
-| **Placeholder Text** | Lorem Ipsum Generator |
-| **Placeholder Images** | [Placehold.co](https://placehold.co/) |
-| **Icons** | Use Emoji (🚀, >, +, 👤) |
-| **Colors** | Inline `style="color: ...; background-color: ..."` |
-| **JS Access** | `document.getElementById('id-name').value` |
-| **JS Output** | `alert()` or `console.log()` or `element.textContent = '...'` |
+- Read the assignment instructions in the corresponding `README.md` inside each folder.
+- Try to implement the tasks in new files or edit the existing starter files.
+- Use the placeholder images and text suggested in each assignment (links are provided in the exercise READMEs).
+- When you finish, open the HTML files in a browser to verify layout and behavior.
+- For JavaScript exercises, use the browser console to test your code and see the output, or use node if you prefer.
 
-Other tips can be found in the [Advanced Assignment Supplements & Beginner Tips](./tips.md) document.
+---
+
+Happy coding!

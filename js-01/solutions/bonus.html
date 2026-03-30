@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <title>BrewBot Self-Serve Kiosk</title>
+    </head>
+    <body>
+        <h1>Welcome to the Robot Cafe!</h1>
+        <button id="surpriseBtn">Surprise Me!</button>
+        <p id="drinkDisplay">Your drink will appear here...</p>
+
+        <script>
+            // 1. Create the array of drinks
+            const secretMenu = [
+                "Matcha Latte",
+                "Caramel Macchiato",
+                "Espresso Tonic",
+                "Iced Chai",
+            ];
+
+            // 2. Grab the elements from the DOM
+            const button = document.getElementById("surpriseBtn");
+            const display = document.getElementById("drinkDisplay");
+
+            // 3. Add the click event listener
+            button.addEventListener("click", function () {
+                // Math formula for picking a random item from an array
+                const randomIndex = Math.floor(
+                    Math.random() * secretMenu.length,
+                );
+                const chosenDrink = secretMenu[randomIndex];
+
+                // 4. Update the text on the screen
+                display.innerText = `BrewBot is making you a: ${chosenDrink}!`;
+            });
+        </script>
+    </body>
+</html>
