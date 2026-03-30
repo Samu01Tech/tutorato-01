@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>BrewBot_OS // INVENTORY_GLITCH</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+            rel="stylesheet"
+        />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            void: "#090014",
+                            glass: "#1a103c",
+                            chrome: "#E0E0E0",
+                            magenta: "#FF00FF",
+                            cyan: "#00FFFF",
+                            orange: "#FF9900",
+                            darkPurple: "#2D1B4E",
+                        },
+                        fontFamily: {
+                            heading: ["Orbitron", "sans-serif"],
+                            mono: ['"Share Tech Mono"', "monospace"],
+                        },
+                    },
+                },
+            };
+        </script>
+
+        <style>
+            /* Global Background & Text */
+            body {
+                background-color: #090014;
+                color: #e0e0e0;
+                margin: 0;
+                overflow-x: hidden;
+            }
+
+            /* 1. The Infinite Grid (Anti-Pattern: Not Flat) */
+            .perspective-grid {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 100vh;
+                background-image:
+                    linear-gradient(transparent 95%, #ff00ff 95%),
+                    linear-gradient(90deg, transparent 95%, #ff00ff 95%);
+                background-size: 40px 40px;
+                transform: perspective(500px) rotateX(60deg) translateY(100px)
+                    scale(2);
+                -webkit-mask-image: linear-gradient(
+                    to top,
+                    rgba(0, 0, 0, 1) 10%,
+                    transparent 60%
+                );
+                mask-image: linear-gradient(
+                    to top,
+                    rgba(0, 0, 0, 1) 10%,
+                    transparent 60%
+                );
+                z-index: 0;
+                pointer-events: none;
+            }
+
+            /* 2. Global CRT Scanlines */
+            .scanlines {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(
+                    rgba(18, 16, 20, 0) 50%,
+                    rgba(0, 0, 0, 0.25) 50%
+                );
+                background-size: 100% 4px;
+                z-index: 50;
+                pointer-events: none;
+            }
+
+            /* 3. Floating Sun */
+            .cyber-sun {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: 600px;
+                width: 600px;
+                border-radius: 50%;
+                background: linear-gradient(to bottom, #ff9900, #ff00ff);
+                filter: blur(100px);
+                opacity: 0.15;
+                z-index: 0;
+                pointer-events: none;
+            }
+
+            /* Scrollbar styling for aesthetic consistency */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #090014;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #ff00ff;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #00ffff;
+            }
+        </style>
+    </head>
+    <body class="font-mono min-h-screen relative py-12 px-4 sm:px-8">
+        <div class="cyber-sun"></div>
+        <div class="perspective-grid"></div>
+        <div class="scanlines"></div>
+
+        <main class="relative z-10 max-w-4xl mx-auto">
+            <div
+                class="border border-magenta/30 border-t-2 border-t-cyan bg-glass/90 backdrop-blur-md shadow-[0_0_30px_rgba(0,255,255,0.1)] rounded-none flex flex-col"
+            >
+                <div
+                    class="bg-cyan/10 border-b border-cyan px-4 py-2 flex items-center justify-between"
+                >
+                    <div class="flex gap-2">
+                        <div class="h-3 w-3 bg-magenta"></div>
+                        <div class="h-3 w-3 bg-cyan"></div>
+                        <div class="h-3 w-3 bg-orange"></div>
+                    </div>
+                    <div
+                        class="text-cyan text-xs tracking-widest uppercase opacity-70"
+                    >
+                        Term_ID: BB_099
+                    </div>
+                </div>
+
+                <div class="p-6 sm:p-10">
+                    <h1
+                        class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-center mb-8 tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange via-magenta to-cyan drop-shadow-[0_0_15px_rgba(255,0,255,0.5)]"
+                    >
+                        BrewBot_OS <br /><span
+                            class="text-3xl sm:text-4xl text-magenta"
+                            >// Glitch</span
+                        >
+                    </h1>
+
+                    <div
+                        class="border-l-4 border-magenta bg-black/50 p-6 mb-8 shadow-[0_0_15px_rgba(255,0,255,0.1)]"
+                    >
+                        <p class="text-chrome leading-relaxed text-lg">
+                            <span class="text-magenta font-bold"
+                                >&gt; SYSTEM_ALERT:</span
+                            >
+                            A power surge caused a glitch in BrewBot’s internal
+                            database. The inventory array is corrupted. Negative
+                            values and null <code>[0]</code> parameters
+                            detected.
+                        </p>
+                    </div>
+
+                    <div class="border border-darkPurple bg-black/40 p-6 mb-10">
+                        <h2
+                            class="font-heading text-2xl text-cyan mb-4 drop-shadow-[0_0_5px_rgba(0,255,255,0.8)]"
+                        >
+                            > EXECUTE_REPAIR_PROTOCOL:
+                        </h2>
+                        <p class="mb-4 text-chrome/80">
+                            Write a JS function in your local environment that
+                            accepts an array and processes the following logic:
+                        </p>
+                        <ol
+                            class="list-decimal list-inside space-y-2 text-chrome"
+                        >
+                            <li>
+                                <span class="text-cyan">Bypass</span> any
+                                <code>0</code> values.
+                            </li>
+                            <li>
+                                <span class="text-cyan">Invert</span> any
+                                negative integers back to positive integers.
+                            </li>
+                            <li>
+                                <span class="text-cyan">Sum</span> the array and
+                                return the <strong>Total Item Count</strong>.
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-12">
+                        <h3
+                            class="text-center text-chrome/60 uppercase tracking-widest text-sm mb-2"
+                        >
+                            Target_Data_Sequence [Stored locally]:
+                        </h3>
+                        <div
+                            id="studentInputData"
+                            class="bg-black border border-cyan/30 text-cyan p-6 text-center font-bold text-lg sm:text-xl break-words shadow-[inset_0_0_20px_rgba(0,255,255,0.1)]"
+                        >
+                            INITIALIZING_DATA_STREAM...
+                        </div>
+                    </div>
+
+                    <div class="border-t border-magenta/30 pt-10 text-center">
+                        <h3
+                            class="font-heading text-2xl text-magenta mb-6 drop-shadow-[0_0_5px_rgba(255,0,255,0.5)]"
+                        >
+                            INPUT_FINAL_CALCULATION
+                        </h3>
+
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-center gap-6"
+                        >
+                            <input
+                                type="number"
+                                id="studentAnswer"
+                                placeholder="> ENTER_SUM"
+                                class="border-b-2 border-magenta bg-black text-cyan font-mono text-xl px-4 py-3 w-48 text-center focus-visible:border-cyan focus-visible:shadow-[0_0_15px_#00FFFF] focus-visible:outline-none placeholder:text-magenta/30 transition-all duration-200"
+                            />
+
+                            <button
+                                onclick="checkAnswer()"
+                                class="group relative -skew-x-12 transform border-2 border-cyan bg-transparent text-cyan rounded-none uppercase tracking-widest font-mono px-8 py-3 transition-all duration-200 ease-linear hover:skew-x-0 hover:bg-cyan hover:text-black hover:shadow-[0_0_25px_#00FFFF]"
+                            >
+                                <span
+                                    class="inline-block skew-x-12 transform group-hover:skew-x-0 transition-transform duration-200 font-bold"
+                                >
+                                    Verify.exe
+                                </span>
+                            </button>
+                        </div>
+
+                        <div
+                            id="resultMessage"
+                            class="mt-8 min-h-[40px] font-bold text-lg tracking-wide"
+                        ></div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-black border-t-2 border-darkPurple px-4 py-2 text-center text-chrome/30 text-xs"
+                >
+                    © 2088 CAFE_NET SYSTEMS // UNAUTHORIZED ACCESS LOGGED
+                </div>
+            </div>
+        </main>
+
+        <script>
+            let currentArray = [];
+            let correctAnswer = 0;
+
+            function initData() {
+                const savedData = localStorage.getItem("brewbot_inventory");
+
+                if (savedData) {
+                    currentArray = JSON.parse(savedData);
+                    calculateCorrectAnswer();
+                } else {
+                    generateNewData();
+                }
+
+                document.getElementById("studentInputData").innerText =
+                    `[${currentArray.join(", ")}]`;
+            }
+
+            function generateNewData() {
+                currentArray = [];
+                const length = Math.floor(Math.random() * 10) + 15;
+
+                for (let i = 0; i < length; i++) {
+                    let num = Math.floor(Math.random() * 51) - 20;
+                    currentArray.push(num);
+                }
+
+                localStorage.setItem(
+                    "brewbot_inventory",
+                    JSON.stringify(currentArray),
+                );
+                calculateCorrectAnswer();
+            }
+
+            function calculateCorrectAnswer() {
+                correctAnswer = 0;
+                for (let i = 0; i < currentArray.length; i++) {
+                    let num = currentArray[i];
+                    if (num !== 0) {
+                        correctAnswer += Math.abs(num);
+                    }
+                }
+            }
+
+            function checkAnswer() {
+                const studentSubmission = parseInt(
+                    document.getElementById("studentAnswer").value,
+                );
+                const messageEl = document.getElementById("resultMessage");
+
+                // Reset classes
+                messageEl.className =
+                    "mt-8 min-h-[40px] font-bold text-lg tracking-wide transition-all duration-200";
+
+                if (isNaN(studentSubmission)) {
+                    messageEl.innerText =
+                        "> ERROR: INVALID_DATATYPE. NUMBERS ONLY.";
+                    messageEl.classList.add(
+                        "text-orange",
+                        "drop-shadow-[0_0_8px_#FF9900]",
+                    );
+                    return;
+                }
+
+                if (studentSubmission === correctAnswer) {
+                    messageEl.innerHTML =
+                        "> SUCCESS: SYSTEM_RESTORED <br/><span class='text-sm opacity-80 font-normal'>BrewBot inventory synchronization complete.</span>";
+                    messageEl.classList.add(
+                        "text-cyan",
+                        "drop-shadow-[0_0_10px_#00FFFF]",
+                        "scale-105",
+                    );
+                } else if (studentSubmission < correctAnswer) {
+                    messageEl.innerText = `> FAIL: Output [${studentSubmission}] is TOO_LOW.`;
+                    messageEl.classList.add(
+                        "text-magenta",
+                        "drop-shadow-[0_0_10px_#FF00FF]",
+                    );
+                } else {
+                    messageEl.innerText = `> FAIL: Output [${studentSubmission}] is TOO_HIGH.`;
+                    messageEl.classList.add(
+                        "text-magenta",
+                        "drop-shadow-[0_0_10px_#FF00FF]",
+                    );
+                }
+            }
+
+            window.onload = initData;
+        </script>
+    </body>
+</html>

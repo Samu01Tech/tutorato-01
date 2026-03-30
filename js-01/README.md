@@ -49,11 +49,13 @@ Here are 5 narrative-driven exercises that scale in difficulty, plus a bonus exe
 3.  **JS:** Use `document.getElementById()` to grab both the button and the paragraph.
 4.  **JS:** Add an `addEventListener` to the button. When clicked, it should pick one drink from the array and change the `innerText` or `textContent` of the paragraph to display the chosen drink.
 
----
-
 ### How to generate a random index for the array:
 ```javascript
 // Assuming you have an array called 'drinks'
 // Get a random index between 0 and the last index of the array
 // Math.floor(Math.random() * drinks.length)
 ```
+
+---
+
+If you finished all the exercises, there is one more here: https://brewbot.polloluce.systems/
