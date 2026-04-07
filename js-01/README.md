@@ -7,14 +7,14 @@ Here are 5 narrative-driven exercises that scale in difficulty, plus a bonus exe
 ## Exercise 1: The Robot Barista’s Memory (Variables & Data Types)
 **The Story:** You just bought a second-hand robot barista named "BrewBot" for your new campus cafe. Right now, BrewBot’s memory is completely blank. Before it can serve anyone, it needs to learn how to remember basic information about a customer's order.
 **The Task:** * Create variables to store a customer's `name` (string), their `orderNumber` (number), whether they want their drink `isIced` (boolean), and the `drinkName` (string).
-* Use `console.log()` to print out a sentence using those variables, like: *"Order #1: Sarah wants a hot Cappuccino."* (Students will need to use a simple string concatenation or template literal here).
+* Use `console.log()` to print out a sentence using those variables, like: *"Order #1: Sarah wants a hot Cappuccino."*.
 
 ## Exercise 2: The VIP Study Lounge Guard (Conditionals)
 **The Story:** Your cafe has a quiet VIP study lounge in the back, but it's exclusively for your most loyal customers. To get in, a student needs to have at least 50 loyalty points. BrewBot needs to check their points before opening the door.
 **The Task:**
 * Create a variable called `loyaltyPoints` and give it a number value.
 * Write an `if / else` statement. If the points are 50 or higher, print *"Access Granted: Welcome to the VIP Lounge!"*
-* If they have fewer than 50 points, print *"Access Denied: You need [X] more points to enter."* (Students must calculate the difference between 50 and their current points).
+* If they have fewer than 50 points, print *"Access Denied: You need [X] more points to enter."*.
 
 ## Exercise 3: The Drink Recipe Manual (Functions)
 **The Story:** BrewBot is getting confused. Instead of writing out the exact instructions every single time someone orders a coffee, you decide to teach BrewBot a "shortcut" recipe. You just tell it the size and the type of milk, and it does the rest.
