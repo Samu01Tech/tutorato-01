@@ -70,24 +70,24 @@ const passwordInserita = "sbagliata";
 // verificare la password. L'operatore && richiede che
 // entrambe le condizioni siano vere contemporaneamente.
 if (usernameInserito === usernameCorretto && passwordInserita === passwordCorretta) {
-  console.log("✅ Accesso consentito");
+  console.log("Accesso consentito");
 } else if (usernameInserito === usernameCorretto) {
   // L'username è corretto (altrimenti saremmo nell'else sotto)
   // ma la password no → arriviamo qui
-  console.log("❌ Password errata");
+  console.log("Password errata");
 } else {
   // L'username stesso è sbagliato
-  console.log("❌ Utente non trovato");
+  console.log("Utente non trovato");
 }
 
 // Output (username="admin", password="sbagliata"):
-// ❌ Password errata
+// Password errata
 
 // Output (username="admin", password="js2024"):
-// ✅ Accesso consentito
+// Accesso consentito
 
 // Output (username="root", password="qualsiasi"):
-// ❌ Utente non trovato
+// Utente non trovato
 
 
 // ── ESERCIZIO 4 (difficile) ─────────────────────────────────
@@ -133,7 +133,7 @@ const giorni = ["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
 console.log("--- RICEVUTA TAXI ---");
 console.log("Tratta:      " + km + " km");
 console.log("Orario:      " + ora + ":00 (" + giorni[giornoSettimana] + ")");
-console.log("Tariffa base: €" + (TARIFFA_BASE + km * COSTO_PER_KM).toFixed(2));
+console.log("Tariffa base: €" + (TARIFFA_BASE + km * COSTO_PER_KM).toFixed(2)); // .toFixed(2) arrotonda a 2 decimali e restituisce una stringa
 if (eNotte)   console.log("Supplemento notte:   +50%");
 if (eWeekend) console.log("Supplemento weekend: +20%");
 if (km > SOGLIA_SCONTO) console.log("Sconto distanza:     -10%");

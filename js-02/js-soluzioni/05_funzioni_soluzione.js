@@ -2,7 +2,6 @@
 //  BLOCCO 5 — FUNZIONI · SOLUZIONI
 // ============================================================
 
-
 // ── ESERCIZIO 1 (facile) ────────────────────────────────────
 // Tre funzioni base: saluta, quadrato, isoPari.
 
@@ -11,14 +10,14 @@ function saluta(nome) {
   return "Ciao, " + nome + "!";
 }
 
-// Arrow function con corpo ridotto (implicit return):
-// quando il corpo è una sola espressione si può omettere
-// le graffe e il return
-const quadrato = n => n * n;
+function quadrato(n) {
+  return n * n;
+}
 
-// Arrow function con parametro singolo → parentesi opzionali
-const isoPari = n => n % 2 === 0;
-// n % 2 === 0  restituisce direttamente true o false
+// Funzione classica al posto della arrow function
+function isoPari(n) {
+  return n % 2 === 0; // n % 2 === 0  restituisce direttamente true o false
+}
 
 console.log(saluta("Giulia"));    // "Ciao, Giulia!"
 console.log(quadrato(6));         // 36
@@ -59,43 +58,80 @@ console.log("Triangolo 8x3:   " + calcolaArea("triangolo", 8, 3).toFixed(2));
 // Cerchio r=5:     78.54
 // Triangolo 8x3:   12.00
 
-
 // ── ESERCIZIO 3 (intermedio) ────────────────────────────────
 // Analisi di un testo: restituisce oggetto con statistiche.
 
 function analizzaTesto(testo) {
   const caratteri = testo.length;
 
-  // split(" ") divide la stringa in un array usando lo spazio come separatore
-  // filter(Boolean) rimuove eventuali stringhe vuote dovute a doppi spazi
-  const parole = testo.split(" ").filter(Boolean).length;
-
-  // Contiamo i caratteri di fine frase con una regex
-  // (regular expression): cerca tutti i . ! ? nel testo
-  const frasi = (testo.match(/[.!?]/g) || []).length;
-
-  // Troviamo la parola più lunga
-  const elencoParole = testo.split(" ").filter(Boolean);
+  let parole = 0;
+  let frasi = 0;
   let parolaLunga = "";
-  for (const parola of elencoParole) {
-    // Rimuoviamo la punteggiatura a fine parola prima di confrontare
-    const pulita = parola.replace(/[.,!?]/g, "");
+  let parolaCorrente = "";
+
+  for (let i = 0; i < testo.length; i++) {
+    const char = testo[i];
+
+    // Conto frasi (., !, ?)
+    if (char === "." || char === "!" || char === "?") {
+      frasi++;
+    }
+
+    // Se NON è spazio → costruisco parola
+    if (char !== " ") {
+      parolaCorrente += char;
+    } else {
+      // Fine parola
+      if (parolaCorrente.length > 0) {
+        parole++;
+
+        // Pulizia punteggiatura finale manuale
+        let pulita = parolaCorrente;
+        const ultimo = pulita[pulita.length - 1];
+        if (ultimo === "." || ultimo === "," || ultimo === "!" || ultimo === "?") {
+          pulita = pulita.slice(0, -1);
+        }
+
+        if (pulita.length > parolaLunga.length) {
+          parolaLunga = pulita;
+        }
+
+        parolaCorrente = "";
+      }
+    }
+  }
+
+  // Gestiamo l'ultima parola (se il testo non finisce con spazio)
+  if (parolaCorrente.length > 0) {
+    parole++;
+
+    let pulita = parolaCorrente;
+    const ultimo = pulita[pulita.length - 1];
+    if (ultimo === "." || ultimo === "," || ultimo === "!" || ultimo === "?") {
+      pulita = pulita.slice(0, -1);
+    }
+
     if (pulita.length > parolaLunga.length) {
       parolaLunga = pulita;
     }
   }
 
-  // La funzione restituisce un oggetto con tutti i risultati
-  return { caratteri, parole, frasi, parolaLunga };
+  // Stampa risultati invece di restituire un oggetto
+  console.log("Caratteri:", caratteri);
+  console.log("Parole:", parole);
+  console.log("Frasi:", frasi);
+  console.log("Parola più lunga:", parolaLunga);
 }
 
-const risultato = analizzaTesto(
+analizzaTesto(
   "JavaScript è un linguaggio potente. Puoi creare app web! Davvero?"
 );
-console.log(risultato);
 
 // Output:
-// { caratteri: 65, parole: 10, frasi: 3, parolaLunga: 'linguaggio' }
+// Caratteri: 65
+// Parole: 10
+// Frasi: 3
+// ParolaLunga: 'linguaggio'
 
 
 // ── ESERCIZIO 4 (difficile) ─────────────────────────────────
@@ -142,21 +178,29 @@ console.log("sommaArray([1,2,3,4,5]):", sommaArray([1, 2, 3, 4, 5])); // 15
 
 // 4. APPIATTISCI (flatten ricorsivo)
 // Caso base: elemento non-array → lo restituiamo in un array
-// Caso ricorsivo: se è un array, appiattisci ogni suo elemento
-//                e concatena con spread operator
+// Caso ricorsivo: se è un array, appiattisci ogni suo elemento e concatena
 function appiattisci(arr) {
   let risultato = [];
-  for (const elemento of arr) {
-    if (Array.isArray(elemento)) {
-      // Se l'elemento è a sua volta un array, lo appiattisci ricorsivamente
-      // e aggiungi i suoi valori al risultato con lo spread (...)
-      risultato = [...risultato, ...appiattisci(elemento)];
+
+  for (let i = 0; i < arr.length; i++) {
+    const elemento = arr[i];
+
+    // Controllo se è un array
+    if (elemento instanceof Array) {
+      const interno = appiattisci(elemento);
+
+      // Aggiungo manualmente gli elementi (senza spread)
+      for (let j = 0; j < interno.length; j++) {
+        risultato.push(interno[j]);
+      }
     } else {
       risultato.push(elemento);
     }
   }
+
   return risultato;
 }
+
 console.log("appiattisci:", appiattisci([1, [2, [3, [4]]], 5])); // [1, 2, 3, 4, 5]
 
 // Output:

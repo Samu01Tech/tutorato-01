@@ -21,19 +21,19 @@ for (const t of temperature) {
 
   // Le condizioni controllano fasce di valori numerici
   if (t >= 30) {
-    categoria = "🔥 Caldo";
+    categoria = "Caldo";
     caldo++;
   } else if (t >= 15) {
-    categoria = "😊 Mite";
+    categoria = "Mite";
     mite++;
   } else if (t >= 1) {
-    categoria = "🧥 Fresco";
+    categoria = "Fresco";
     fresco++;
   } else if (t === 0) {
-    categoria = "🧊 Ghiaccio";
+    categoria = "Ghiaccio";
     ghiaccio++;
   } else {
-    categoria = "❄️  Freddo";
+    categoria = "Freddo";
     freddo++;
   }
 
@@ -41,30 +41,30 @@ for (const t of temperature) {
 }
 
 console.log("\n--- RIEPILOGO ---");
-console.log("🔥 Caldo:    " + caldo);
-console.log("😊 Mite:     " + mite);
-console.log("🧥 Fresco:   " + fresco);
-console.log("🧊 Ghiaccio: " + ghiaccio);
-console.log("❄️  Freddo:   " + freddo);
+console.log("Caldo:    " + caldo);
+console.log("Mite:     " + mite);
+console.log("Fresco:   " + fresco);
+console.log("Ghiaccio: " + ghiaccio);
+console.log("Freddo:   " + freddo);
 
 // Output:
-// 32°C → 🔥 Caldo
-// -5°C → ❄️  Freddo
-// 18°C → 😊 Mite
-// 0°C → 🧊 Ghiaccio
-// 25°C → 😊 Mite
-// -12°C → ❄️  Freddo
-// 7°C → 🧥 Fresco
-// 40°C → 🔥 Caldo
-// 15°C → 😊 Mite
-// -1°C → ❄️  Freddo
+// 32°C → Caldo
+// -5°C → Freddo
+// 18°C → Mite
+// 0°C → Ghiaccio
+// 25°C → Mite
+// -12°C → Freddo
+// 7°C → Fresco
+// 40°C → Caldo
+// 15°C → Mite
+// -1°C → Freddo
 //
 // --- RIEPILOGO ---
-// 🔥 Caldo:    2
-// 😊 Mite:     3
-// 🧥 Fresco:   1
-// 🧊 Ghiaccio: 1
-// ❄️  Freddo:   3
+// Caldo:    2
+// Mite:     3
+// Fresco:   1
+// Ghiaccio: 1
+// Freddo:   3
 
 
 // ── ESERCIZIO 2 (intermedio) ────────────────────────────────
@@ -101,7 +101,7 @@ for (const t of transazioni) {
       console.log("Prelievo  -" + importo + "€  → saldo: €" + saldo.toFixed(2));
     } else {
       rifiutate++;
-      console.log("⚠️  Fondi insufficienti per prelievo " + importo + "€ (saldo: €" + saldo.toFixed(2) + ")");
+      console.log("Fondi insufficienti per prelievo " + importo + "€ (saldo: €" + saldo.toFixed(2) + ")");
     }
   }
 }
@@ -119,12 +119,12 @@ console.log("Totale prelevato:      €" + prelievi.toFixed(2));
 // Deposito  +200€  → saldo: €1200.00
 // Prelievo  -150€  → saldo: €1050.00
 // Deposito  +500€  → saldo: €1550.00
-// ⚠️  Fondi insufficienti per prelievo 800€ (saldo: €1550.00)   ← NO: 800 <= 1550, passa!
+// Fondi insufficienti per prelievo 800€ (saldo: €1550.00)   ← NO: 800 <= 1550, passa!
 // (NB: la transazione -800 viene ESEGUITA perché 800 <= 1550)
 // Prelievo  -800€  → saldo: €750.00
 // Deposito  +100€  → saldo: €850.00
 // Prelievo  -50€   → saldo: €800.00
-// ⚠️  Fondi insufficienti per prelievo 300€ (saldo: €800.00)    ← NO: 300 <= 800, passa!
+// Fondi insufficienti per prelievo 300€ (saldo: €800.00)    ← NO: 300 <= 800, passa!
 // Prelievo  -300€  → saldo: €500.00
 // Deposito  +750€  → saldo: €1250.00
 // Prelievo  -200€  → saldo: €1050.00

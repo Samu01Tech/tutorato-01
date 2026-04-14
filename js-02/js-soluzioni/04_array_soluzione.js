@@ -71,31 +71,41 @@ const carrello = [
   { nome: "Yogurt",  prezzo: 0.7,  quantita: 5 },
 ];
 
-// map() trasforma ogni elemento e restituisce un NUOVO array
-// Non modifica l'array originale
-const totaliPerProdotto = carrello.map(item => ({
-  nome:   item.nome,
-  totale: item.prezzo * item.quantita,
-}));
+// Creiamo l'array dei totali per prodotto
+const totaliPerProdotto = [];
+for (let i = 0; i < carrello.length; i++) {
+  const item = carrello[i];
+  totaliPerProdotto.push({
+    nome: item.nome,
+    totale: item.prezzo * item.quantita
+  });
+}
 
-// filter() restituisce un nuovo array con solo gli elementi
-// per cui la funzione restituisce true
-const prodottiCostosi = totaliPerProdotto.filter(item => item.totale > 3);
-console.log("Prodotti con totale > 3€:", prodottiCostosi.map(p => p.nome));
+// Filtriamo i prodotti con totale > 3
+const prodottiCostosi = [];
+for (let i = 0; i < totaliPerProdotto.length; i++) {
+  const item = totaliPerProdotto[i];
+  if (item.totale > 3) {
+    prodottiCostosi.push(item.nome);
+  }
+}
 
-// Calcoliamo il totale generale sommando i totali per prodotto
-// reduce() "riduce" un array a un singolo valore
+console.log("Prodotti con totale > 3€:", prodottiCostosi);
+
+// Calcoliamo il totale generale
 let totaleCarrello = 0;
-for (const item of totaliPerProdotto) {
-  totaleCarrello += item.totale;
+for (let i = 0; i < totaliPerProdotto.length; i++) {
+  totaleCarrello += totaliPerProdotto[i].totale;
 }
 
 // Stampa riepilogo
 console.log("\n--- CARRELLO ---");
-for (const item of carrello) {
+for (let i = 0; i < carrello.length; i++) {
+  const item = carrello[i];
   const tot = (item.prezzo * item.quantita).toFixed(2);
   console.log(item.nome + ": " + item.prezzo + " x " + item.quantita + " = " + tot + "€");
 }
+
 console.log("TOTALE: " + totaleCarrello.toFixed(2) + "€");
 
 // Output:
@@ -109,14 +119,13 @@ console.log("TOTALE: " + totaleCarrello.toFixed(2) + "€");
 // Yogurt: 0.7 x 5 = 3.50€
 // TOTALE: 15.30€
 
-
 // ── ESERCIZIO 4 (difficile) ─────────────────────────────────
 // Analisi statistica con bubble sort manuale.
 
 const voti = [72, 85, 91, 60, 78, 95, 55, 88, 73, 82,
               67, 90, 74, 86, 61, 79, 93, 58, 84, 77];
 
-// 1. Media: somma tutti i voti e dividi per la quantità
+// 1. Media
 let somma = 0;
 for (const v of voti) {
   somma += v;
@@ -124,7 +133,7 @@ for (const v of voti) {
 const media = somma / voti.length;
 console.log("Media:", media.toFixed(2));
 
-// 2. Max e min con loop manuale
+// 2. Max e min
 // Partiamo assumendo che il primo elemento sia il massimo/minimo;
 // poi aggiorniamo se troviamo qualcosa di più grande/piccolo
 let massimo = voti[0];
@@ -137,17 +146,21 @@ console.log("Voto massimo:", massimo);
 console.log("Voto minimo: ", minimo);
 
 // 3. Voti sopra la media
-let sopraMedea = 0;
+let sopraMedia = 0;
 for (const v of voti) {
-  if (v > media) sopraMedea++;
+  if (v > media) sopraMedia++;
 }
-console.log("Voti sopra la media:", sopraMedea);
+console.log("Voti sopra la media:", sopraMedia);
 
 // 4. Mediana con Bubble Sort manuale
-// Copiamo l'array per non modificare l'originale (spread operator)
-const ordinati = [...voti];
 
-// Bubble Sort: confronta coppie adiacenti e le scambia se fuori ordine.
+// Copia dell'array
+const ordinati = [];
+for (let i = 0; i < voti.length; i++) {
+  ordinati[i] = voti[i];
+}
+
+// Bubble Sort: algoritmo di ordinamento che confronta coppie adiacenti e le scambia se fuori ordine.
 // Ogni "passata" porta il valore più grande in fondo.
 // Ripetiamo finché non ci sono più scambi.
 let scambiEffettuati;
@@ -155,20 +168,24 @@ do {
   scambiEffettuati = false;
   for (let i = 0; i < ordinati.length - 1; i++) {
     if (ordinati[i] > ordinati[i + 1]) {
-      // Scambio con variabile temporanea
-      const temp       = ordinati[i];
-      ordinati[i]      = ordinati[i + 1];
-      ordinati[i + 1]  = temp;
+      const temp = ordinati[i];
+      ordinati[i] = ordinati[i + 1];
+      ordinati[i + 1] = temp;
       scambiEffettuati = true;
     }
   }
 } while (scambiEffettuati);
 
 // Con numero pari di elementi la mediana è la media dei due centrali
-const metà = Math.floor(ordinati.length / 2);
-const mediana = ordinati.length % 2 === 0
-  ? (ordinati[metà - 1] + ordinati[metà]) / 2
-  : ordinati[metà];
+const meta = Math.floor(ordinati.length / 2);
+let mediana;
+
+if (ordinati.length % 2 === 0) {
+  mediana = (ordinati[meta - 1] + ordinati[meta]) / 2;
+} else {
+  mediana = ordinati[meta];
+}
+
 console.log("Mediana:", mediana);
 
 // 5. Distribuzione per fasce

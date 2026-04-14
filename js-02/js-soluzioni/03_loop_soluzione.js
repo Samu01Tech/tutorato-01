@@ -110,7 +110,7 @@ let contFizzBuzz = 0;
 let sommaNormali = 0;
 
 for (let i = 1; i <= 100; i++) {
-  const multiplo7  = (i % 7 === 0);   // % è il modulo (resto della divisione)
+  const multiplo7  = (i % 7 === 0);   // % è il modulo (resto della divisione) --> Esempio: 5%7 = 5, 6%7 = 6, 7%7 = 0
   const multiplo3  = (i % 3 === 0);
   const multiplo5  = (i % 5 === 0);
 
