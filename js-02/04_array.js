@@ -59,6 +59,11 @@ for (let i = 0; i < numero.length; i++) {
   console.log(numero[i]);
 }
 
+// PRO
+for (const n of numero) {
+  console.log(n);
+}
+
 // ============================================================
 //  RIASSUMENDO
 // ============================================================
