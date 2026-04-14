@@ -13,22 +13,21 @@ console.log("Primo elemento: ", numeri[0]);
 console.log("Ultimo elemento:", numeri[numeri.length - 1]);
 console.log("Numero elementi:", numeri.length);
 
+// pop() rimuove l'ultimo elemento
+numeri.pop();
+console.log("Dopo pop():", numeri);
+
 // push() aggiunge in fondo e restituisce la nuova lunghezza
 numeri.push(10);
 console.log("Dopo push(10):", numeri);
-
-// shift() rimuove il primo elemento e lo restituisce
-const rimosso = numeri.shift();
-console.log("Elemento rimosso:", rimosso);
-console.log("Array finale:", numeri);
 
 // Output:
 // Primo elemento:  4
 // Ultimo elemento: 6
 // Numero elementi: 9
-// Dopo push(10): [4, 9, 2, 7, 1, 5, 8, 3, 6, 10]
-// Elemento rimosso: 4
-// Array finale: [9, 2, 7, 1, 5, 8, 3, 6, 10]
+// Dopo pop(): [4, 9, 2, 7, 1, 5, 8, 3]
+// Dopo push(10): [4, 9, 2, 7, 1, 5, 8, 3, 10]
+// Array finale: [4, 9, 2, 7, 1, 5, 8, 3, 10]
 
 
 // ── ESERCIZIO 2 (facile) ────────────────────────────────────

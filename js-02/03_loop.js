@@ -1,8 +1,33 @@
 // ============================================================
 //  BLOCCO 3 — LOOP
-//  2 facili · 1 intermedio · 1 difficile
 // ============================================================
 
+// ── For ────────────────────────────────────
+// Un for loop ha 3 parti:
+// 1. inizializzazione: let i = 1 --> inizializziamo una variabile 'i' e le assegniamo il valore 1
+// 2. condizione: i <= 5 --> il ciclo si ripeterà finché la condizione è vera
+// 3. incremento: i++ (abbreviazione di i = i+1) --> alla fine di ogni ciclo il valore della variabile 'i' aumenterà di 1
+
+for (let i = 1; i <= 5; i++) {
+  // Questo codice viene eseguito ad ogni iterazione
+  console.log(i);
+}
+
+// ── While ────────────────────────────────────
+// Con il while devi gestire tutto manualmente
+
+let i = 1; // inizializzazione
+
+while (i <= 5) { // condizione
+  console.log(i); // esecuzione
+
+  i++; // incremento
+}
+
+// ── ESERCIZIO 0 ────────────────────────────────────
+// 1. Stampa i numeri dall'1 al 10
+// 2. Stampa i numeri dall'1 al 10, solo se pari
+// 3. Stampa i numeri dall'1 al 10, solo se dispari
 
 // ── ESERCIZIO 1 (facile) ────────────────────────────────────
 // Stampa la tavola moltiplicativa del 7 da 1 a 10.

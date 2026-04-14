@@ -1,7 +1,80 @@
 // ============================================================
 //  BLOCCO 4 — ARRAY
-//  2 facili · 1 intermedio · 1 difficile
 // ============================================================
+
+// ── Spiegazione ────────────────────────────────────
+
+// PROBLEMA:
+// Se voglio salvare più valori, potrei fare così:
+
+let nome1 = "Luca";
+let nome2 = "Anna";
+let nome3 = "Marco";
+
+// Ma questo non è pratico:
+// - troppe variabili
+// - difficile da gestire se diventano tante
+
+// La soluzione? Usare un ARRAY!
+// Un array è una "scatola" che contiene più valori
+let nome = ["Luca", "Anna", "Marco"];
+
+// Ogni elemento ha una posizione (indice)
+// ATTENZIONE: si parte da 0!
+
+console.log(nome[0]); // Luca (primo elemento)
+console.log(nome[1]); // Anna (secondo elemento)
+console.log(nome[2]); // Marco (terzo elemento)
+
+// ── Metodi ────────────────────────────────────
+
+// Restituisce la lunghezza di un array
+console.log(nome.length); // 3
+
+// Aggiunge alla fine l'elemento desiderato
+nome.push("Giulia"); // aggiunge alla fine
+console.log(nome); // ["Luca", "Anna", "Marco", "Giulia"]
+
+// Toglie l'ultimo elemento (ultimo = quello con l'indice più alto)
+nome.pop();
+console.log(nome); // ["Luca", "Anna", "Marco"]
+
+// Ritorna true/false a seconda se l'elemento indicato è presente o meno nell'array
+console.log(nome.includes("Luca"));     // true
+console.log(nome.includes("Camillo"));  // false
+
+// ── Ciclo ────────────────────────────────────
+
+for (let i = 0; i < nome.length; i++) {
+  console.log(nome[i]);
+}
+// i = indice (posizione)
+// nome[i] = elemento alla posizione i
+
+// Altro esempio coi cicli
+let numero = [10, 20, 30, 40];
+
+// stampiamo tutti i numeri
+for (let i = 0; i < numero.length; i++) {
+  console.log(numero[i]);
+}
+
+// ============================================================
+//  RIASSUMENDO
+// ============================================================
+
+// Un array è una lista numerata di valori.
+// Puoi accedere agli elementi usando la loro posizione (indice).
+
+// RICORDATE!
+// Pensare il primo elemento è nella posizione [0]
+
+
+
+
+
+
+
 
 
 // ── ESERCIZIO 1 (facile) ────────────────────────────────────
@@ -10,8 +83,8 @@
 //
 // 1. Stampa il primo e l'ultimo elemento
 // 2. Stampa quanti elementi ci sono
-// 3. Aggiungi il numero 10 in fondo
-// 4. Rimuovi il primo elemento
+// 3. Rimuovi l'ultimo elemento
+// 4. Aggiungi il numero 10 in fondo
 // 5. Stampa l'array aggiornato
 //
 // SUGGERIMENTO: usa push(), shift() e .length
