@@ -4,11 +4,11 @@
 
 // ── For ────────────────────────────────────
 // Un for loop ha 3 parti:
-// 1. inizializzazione: let i = 1 --> inizializziamo una variabile 'i' e le assegniamo il valore 1
-// 2. condizione: i <= 5 --> il ciclo si ripeterà finché la condizione è vera
+// 1. inizializzazione: let i = 0 --> inizializziamo una variabile 'i' e le assegniamo il valore 0
+// 2. condizione: i < 5 --> il ciclo si ripeterà finché la condizione è vera
 // 3. incremento: i++ (abbreviazione di i = i+1) --> alla fine di ogni ciclo il valore della variabile 'i' aumenterà di 1
 
-for (let i = 1; i <= 5; i++) {
+for (let i = 0; i < 5; i=i+1) {
   // Questo codice viene eseguito ad ogni iterazione
   console.log(i);
 }
@@ -16,13 +16,13 @@ for (let i = 1; i <= 5; i++) {
 // ── While ────────────────────────────────────
 // Con il while devi gestire tutto manualmente
 
-let i = 1; // inizializzazione
+/*let i = 1; // inizializzazione
 
 while (i <= 5) { // condizione
   console.log(i); // esecuzione
 
   i++; // incremento
-}
+}*/
 
 // ── ESERCIZIO 0 ────────────────────────────────────
 // 1. Stampa i numeri dall'1 al 10
@@ -51,8 +51,8 @@ while (i <= 5) { // condizione
 //
 // Output atteso:
 //   Passo 1: totale = 1
-//   Passo 2: totale = 3
-//   Passo 3: totale = 6
+//   Passo 2: totale = 3 (totale+i --> 1+2=3)
+//   Passo 3: totale = 6 (totale+i --> 3+3=6)
 //   ...
 //   Fermato al passo N: totale = XX (supera 50)
 //
