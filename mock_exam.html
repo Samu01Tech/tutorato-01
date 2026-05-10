@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Exam — FIP I | UniTn ITC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0e14;
+    --surface: #13161f;
+    --surface2: #1a1e2e;
+    --border: #252a3d;
+    --accent: #4f9cf9;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0a0c13;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ===== LAYOUT ===== */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(12,14,20,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0;
+  }
+  .nav-logo {
+    font-weight: 800; font-size: 1.1rem;
+    color: var(--accent);
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid var(--border);
+    margin-right: 1rem;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+  }
+  .nav-tabs { display: flex; gap: 0; }
+  .nav-tab {
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 2px solid transparent;
+    transition: all .2s;
+    border: none; background: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+  .nav-score {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .score-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 3.5rem 2rem 2.5rem;
+    max-width: 900px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    background: rgba(79,156,249,0.1);
+    border: 1px solid rgba(79,156,249,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: 2.2rem; font-weight: 800;
+    letter-spacing: -1px; line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--muted); max-width: 560px; }
+  .hero-meta {
+    display: flex; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); }
+
+  /* ===== CONTAINER ===== */
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header h2 {
+    font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
+  }
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  /* ===== QUESTION CARD ===== */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color .2s;
+  }
+  .question-card.answered { border-color: rgba(79,156,249,0.3); }
+  .question-card.correct { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.03); }
+  .question-card.wrong { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.03); }
+
+  .q-header {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--accent); background: rgba(79,156,249,0.12);
+    border: 1px solid rgba(79,156,249,0.25);
+    padding: 0.2rem 0.5rem; border-radius: 4px;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .q-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.5rem; border-radius: 4px;
+    flex-shrink: 0; margin-top: 3px;
+  }
+  .q-text { font-size: 0.95rem; font-weight: 500; flex: 1; }
+
+  pre.code-snippet {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    overflow-x: auto;
+    line-height: 1.7;
+    color: #cbd5e1;
+  }
+  .kw { color: #a78bfa; }
+  .str { color: #34d399; }
+  .num { color: #fbbf24; }
+  .fn { color: #60a5fa; }
+  .cmt { color: #475569; }
+
+  .options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .option {
+    display: flex; align-items: center; gap: 0.75rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: all .15s;
+    font-size: 0.88rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .option:hover { border-color: var(--accent); color: var(--accent); }
+  .option.selected { border-color: var(--accent); background: rgba(79,156,249,0.1); color: var(--accent); }
+  .option.correct-ans { border-color: var(--green) !important; background: rgba(52,211,153,0.12) !important; color: var(--green) !important; }
+  .option.wrong-ans { border-color: var(--red) !important; background: rgba(248,113,113,0.12) !important; color: var(--red) !important; }
+  .option input[type="radio"] { accent-color: var(--accent); }
+  .option.disabled { cursor: default; pointer-events: none; }
+
+  .q-feedback {
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    display: none;
+  }
+  .q-feedback.show { display: block; }
+  .q-feedback.ok { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
+  .q-feedback.fail { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+
+  /* ===== SUBMIT BUTTON ===== */
+  .submit-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .submit-info { font-size: 0.85rem; color: var(--muted); }
+  .submit-info strong { color: var(--text); }
+
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.88rem;
+    padding: 0.7rem 1.75rem;
+    border-radius: 7px;
+    border: none; cursor: pointer;
+    transition: all .2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0c0e14;
+  }
+  .btn-primary:hover { background: #6baafb; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--text); }
+
+  /* ===== RESULTS ===== */
+  .results-banner {
+    display: none;
+    background: linear-gradient(135deg, rgba(79,156,249,0.1), rgba(167,139,250,0.1));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .results-banner.show { display: block; }
+  .result-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3.5rem; font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .result-label { color: var(--muted); font-size: 0.9rem; }
+  .result-grade {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.4rem 1.25rem;
+    border-radius: 20px;
+    font-weight: 700; font-size: 1.1rem;
+  }
+
+  /* ===== EXERCISE BLOCKS ===== */
+  .block-header {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+  .block-icon {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .block-1 .block-icon { background: rgba(79,156,249,0.15); color: var(--accent); }
+  .block-2 .block-icon { background: rgba(167,139,250,0.15); color: var(--accent2); }
+  .block-3 .block-icon { background: rgba(52,211,153,0.15); color: var(--green); }
+  .block-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.1rem; }
+  .block-subtitle { font-size: 0.8rem; color: var(--muted); }
+
+  .exercise-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .exercise-card.locked {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .exercise-card.completed { border-color: rgba(52,211,153,0.35); }
+  .exercise-card.failed { border-color: rgba(248,113,113,0.35); }
+
+  .ex-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .ex-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 0.2rem 0.6rem; border-radius: 4px;
+  }
+  .easy { background: rgba(52,211,153,0.15); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+  .intermediate { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .difficult { background: rgba(248,113,113,0.15); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+
+  .ex-title { font-size: 1rem; font-weight: 700; flex: 1; }
+  .ex-status { font-size: 1rem; }
+
+  .ex-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; }
+  .ex-task {
+    background: rgba(79,156,249,0.07);
+    border: 1px solid rgba(79,156,249,0.2);
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+  }
+  .ex-task strong { color: var(--accent); display: block; margin-bottom: 0.25rem; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .ex-editor {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    width: 100%;
+    min-height: 120px;
+    color: var(--text);
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s;
+    line-height: 1.7;
+  }
+  .ex-editor:focus { border-color: var(--accent); }
+
+  .ex-controls {
+    display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: center;
+  }
+  .btn-run {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    border: none; cursor: pointer;
+    background: var(--accent);
+    color: #0c0e14;
+    transition: all .2s;
+  }
+  .btn-run:hover { background: #6baafb; }
+  .btn-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-hint:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .ex-output {
+    margin-top: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    min-height: 50px;
+    white-space: pre-wrap;
+    display: none;
+  }
+  .ex-output.show { display: block; }
+  .out-ok { color: var(--green); }
+  .out-err { color: var(--red); }
+  .out-neutral { color: var(--muted); }
+
+  .lock-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.5rem;
+    background: rgba(12,14,20,0.6);
+    border-radius: var(--radius);
+    font-size: 0.85rem; color: var(--muted);
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+  }
+  .lock-icon { font-size: 1.5rem; }
+
+  /* ===== SOLUTIONS PAGE ===== */
+  .sol-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .sol-title {
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .sol-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; }
+  .sol-explanation {
+    font-size: 0.84rem; color: #94a3b8;
+    line-height: 1.7;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width .4s ease;
+  }
+
+  @media(max-width:600px) {
+    .hero h1 { font-size: 1.6rem; }
+    nav { padding: 0 1rem; }
+    .container { padding: 1rem; }
+    .nav-logo { font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">FIP I — UniTn</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPage('quiz')">Quiz</button>
+    <button class="nav-tab" onclick="switchPage('exercises')">Esercizi</button>
+    <button class="nav-tab" onclick="switchPage('solutions')">Soluzioni</button>
+  </div>
+  <div class="nav-score">
+    Quiz: <span class="score-badge" id="scoreDisplay">—</span>
+  </div>
+</nav>
+
+<!-- ===== QUIZ PAGE ===== -->
+<div class="page active" id="page-quiz">
+  <div class="hero">
+    <div class="hero-tag">Mock Exam · A.A. 2024/25</div>
+    <h1>Fondamenti di Informatica<br><span>e Programmazione I</span></h1>
+    <p>30 domande a scelta multipla su variabili, typeof, numeri, stringhe, oggetti, funzioni, array, cicli e condizionali.</p>
+    <div class="hero-meta">
+      <span class="meta-item"><span class="meta-dot"></span>30 domande</span>
+      <span class="meta-item"><span class="meta-dot" style="background:var(--green)"></span>1 punto ciascuna</span>
+      <span class="meta-item"><span class="meta-dot" style="background:var(--yellow)"></span>Bachelor ITC</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="progress-bar"><div class="progress-fill" id="quizProgress" style="width:0%"></div></div>
+
+    <div id="questionsContainer"></div>
+
+    <div class="submit-bar">
+      <div class="submit-info">
+        Risposte date: <strong id="answeredCount">0</strong> / 30 &nbsp;·&nbsp;
+        Usa il pulsante per correggere tutte le risposte.
+      </div>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn btn-ghost" onclick="resetQuiz()">Ricomincia</button>
+        <button class="btn btn-primary" onclick="correctAll()">✦ Correggi tutto</button>
+      </div>
+    </div>
+
+    <div class="results-banner" id="resultsBanner">
+      <div class="result-score" id="resultScore">0/30</div>
+      <div class="result-label">punteggio totale</div>
+      <div id="resultGrade" class="result-grade"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXERCISES PAGE ===== -->
+<div class="page" id="page-exercises">
+  <div class="hero">
+    <div class="hero-tag">Esercizi Pratici</div>
+    <h1>Esercizi <span>Progressivi</span></h1>
+    <p>3 blocchi da 3 esercizi ciascuno. Completa il precedente per sbloccare il successivo. Scrivi il codice JavaScript nell'editor e premi Esegui.</p>
+    <div class="hero-meta">
+      <span class="meta-item"><span class="meta-dot"></span>9 esercizi totali</span>
+      <span class="meta-item"><span class="meta-dot" style="background:var(--accent2)"></span>3 blocchi tematici</span>
+    </div>
+  </div>
+  <div class="container" id="exercisesContainer"></div>
+</div>
+
+<!-- ===== SOLUTIONS PAGE ===== -->
+<div class="page" id="page-solutions">
+  <div class="hero">
+    <div class="hero-tag">Soluzioni</div>
+    <h1>Soluzioni <span>degli Esercizi</span></h1>
+    <p>Soluzioni di riferimento per tutti e 9 gli esercizi, con spiegazione del ragionamento.</p>
+  </div>
+  <div class="container" id="solutionsContainer"></div>
+</div>
+
+<script>
+// =====================================================================
+// DATA
+// =====================================================================
+
+const questions = [
+  // --- Variables ---
+  { id:1, tag:"Variabili", text:"Qual è la differenza principale tra <code>let</code> e <code>var</code> in JavaScript?",
+    code: null,
+    options:["let ha scope di blocco, var ha scope di funzione","var ha scope di blocco, let ha scope di funzione","Non c'è differenza","let non può essere riassegnato"],
+    answer:0, explanation:"let è block-scoped (limitato al blocco {}), var è function-scoped." },
+
+  { id:2, tag:"Variabili", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">console</span>.<span class="fn">log</span>(x);
+<span class="kw">var</span> x = <span class="num">5</span>;`,
+    options:["5","ReferenceError","undefined","null"],
+    answer:2, explanation:"var viene sollevato (hoisting) con valore undefined prima dell'assegnazione." },
+
+  { id:3, tag:"Variabili", text:"Quale istruzione produce un errore?",
+    code: null,
+    options:["const x = 5; x = 10;","let y = 5; y = 10;","var z = 5; z = 10;","let a; a = 5;"],
+    answer:0, explanation:"const non può essere riassegnato dopo la dichiarazione." },
+
+  { id:4, tag:"Variabili", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> a = <span class="num">1</span>;
+{
+  <span class="kw">let</span> a = <span class="num">2</span>;
+  <span class="kw">console</span>.<span class="fn">log</span>(a);
+}
+<span class="kw">console</span>.<span class="fn">log</span>(a);`,
+    options:["2 poi 2","1 poi 1","2 poi 1","ReferenceError"],
+    answer:2, explanation:"Il secondo let a è block-scoped, non sovrascrive la variabile esterna." },
+
+  // --- typeof ---
+  { id:5, tag:"typeof", text:"Qual è il risultato di <code>typeof null</code>?",
+    code: null,
+    options:['"null"','"undefined"','"object"','"boolean"'],
+    answer:2, explanation:"È un bug storico di JavaScript: typeof null restituisce 'object'." },
+
+  { id:6, tag:"typeof", text:"Qual è il risultato di <code>typeof function(){}</code>?",
+    code: null,
+    options:['"object"','"function"','"undefined"','"callable"'],
+    answer:1, explanation:"Le funzioni hanno il loro tipo: 'function'." },
+
+  { id:7, tag:"typeof", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]);`,
+    options:['"array"','"object"','"list"','"undefined"'],
+    answer:1, explanation:"Gli array in JavaScript sono oggetti; typeof array restituisce 'object'." },
+
+  // --- Numbers ---
+  { id:8, tag:"Numeri", text:"Cosa restituisce <code>parseInt('3.7')</code>?",
+    code: null,
+    options:["3","3.7","4","NaN"],
+    answer:0, explanation:"parseInt tronca la parte decimale e restituisce solo la parte intera." },
+
+  { id:9, tag:"Numeri", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">console</span>.<span class="fn">log</span>(<span class="num">0.1</span> + <span class="num">0.2</span> === <span class="num">0.3</span>);`,
+    options:["true","false","NaN","TypeError"],
+    answer:1, explanation:"A causa della rappresentazione floating-point, 0.1 + 0.2 ≠ 0.3 esatto in JS." },
+
+  { id:10, tag:"Numeri", text:"Cosa restituisce <code>NaN === NaN</code>?",
+    code: null,
+    options:["true","false","undefined","TypeError"],
+    answer:1, explanation:"NaN è l'unico valore in JS che non è uguale a se stesso. Usa isNaN() per verificare." },
+
+  { id:11, tag:"Numeri", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">console</span>.<span class="fn">log</span>(<span class="num">5</span> % <span class="num">2</span>);`,
+    options:["2","2.5","1","0"],
+    answer:2, explanation:"L'operatore % restituisce il resto della divisione: 5 / 2 = 2 resto 1." },
+
+  // --- Strings ---
+  { id:12, tag:"Stringhe", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> s = <span class="str">"ciao"</span>;
+<span class="kw">console</span>.<span class="fn">log</span>(s.<span class="fn">toUpperCase</span>());`,
+    options:['"ciao"','"CIAO"','"Ciao"',"undefined"],
+    answer:1, explanation:"toUpperCase() restituisce la stringa in maiuscolo senza modificare l'originale." },
+
+  { id:13, tag:"Stringhe", text:"Cosa stampa <code>'hello'.indexOf('l')</code>?",
+    code: null,
+    options:["1","2","3","0"],
+    answer:1, explanation:"L'indice parte da 0. 'h'=0, 'e'=1, 'l'=2. indexOf restituisce il primo match: 2." },
+
+  { id:14, tag:"Stringhe", text:"Cosa restituisce <code>'JavaScript'.slice(0, 4)</code>?",
+    code: null,
+    options:['"Java"','"Scri"','"Java"','"JaS"'],
+    answer:0, explanation:"slice(0,4) prende i caratteri dall'indice 0 (incluso) al 4 (escluso)." },
+
+  { id:15, tag:"Stringhe", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> n = <span class="num">42</span>;
+<span class="kw">console</span>.<span class="fn">log</span>(<span class="str">"Numero: "</span> + n);`,
+    options:['"Numero: 42"','"Numero: n"',"TypeError",'"42Numero: "'],
+    answer:0, explanation:"L'operatore + con una stringa esegue concatenazione, convertendo n in stringa." },
+
+  // --- Objects ---
+  { id:16, tag:"Oggetti", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> obj = { nome: <span class="str">"Mario"</span>, età: <span class="num">20</span> };
+<span class="kw">console</span>.<span class="fn">log</span>(obj[<span class="str">"nome"</span>]);`,
+    options:['"Mario"','"nome"',"undefined","TypeError"],
+    answer:0, explanation:"La notazione con parentesi quadre accede alla proprietà usando una stringa come chiave." },
+
+  { id:17, tag:"Oggetti", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> p = { x: <span class="num">3</span> };
+p.y = <span class="num">7</span>;
+<span class="kw">console</span>.<span class="fn">log</span>(Object.<span class="fn">keys</span>(p).<span class="fn">length</span>);`,
+    options:["1","2","3","undefined"],
+    answer:1, explanation:"L'oggetto ha due chiavi ('x' e 'y') dopo l'aggiunta di y." },
+
+  { id:18, tag:"Oggetti", text:"Quale affermazione è corretta sugli oggetti in JavaScript?",
+    code: null,
+    options:["Sono immutabili","Possono contenere metodi (funzioni come proprietà)","Hanno sempre indici numerici","Non possono essere annidati"],
+    answer:1, explanation:"Le proprietà di un oggetto possono essere funzioni, dette metodi." },
+
+  // --- Functions ---
+  { id:19, tag:"Funzioni", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">function</span> <span class="fn">somma</span>(a, b) {
+  <span class="kw">return</span> a + b;
+}
+<span class="kw">console</span>.<span class="fn">log</span>(<span class="fn">somma</span>(<span class="num">3</span>, <span class="num">4</span>));`,
+    options:["7","34","undefined","TypeError"],
+    answer:0, explanation:"La funzione somma i due parametri e li restituisce: 3 + 4 = 7." },
+
+  { id:20, tag:"Funzioni", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">function</span> <span class="fn">test</span>(x) {
+  <span class="kw">if</span> (x > <span class="num">0</span>) <span class="kw">return</span> <span class="str">"pos"</span>;
+  <span class="kw">return</span> <span class="str">"non-pos"</span>;
+}
+<span class="kw">console</span>.<span class="fn">log</span>(<span class="fn">test</span>(-<span class="num">3</span>));`,
+    options:['"pos"','"non-pos"',"undefined","false"],
+    answer:1, explanation:"-3 non è > 0, quindi si salta il primo return e si esegue il secondo." },
+
+  { id:21, tag:"Funzioni", text:"Cosa restituisce una funzione senza istruzione <code>return</code>?",
+    code: null,
+    options:["0","null","undefined","false"],
+    answer:2, explanation:"In JavaScript, una funzione senza return (o con return vuoto) restituisce undefined." },
+
+  // --- Arrays ---
+  { id:22, tag:"Array", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> arr = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+arr.<span class="fn">push</span>(<span class="num">40</span>);
+<span class="kw">console</span>.<span class="fn">log</span>(arr.<span class="fn">length</span>);`,
+    options:["3","4","40","undefined"],
+    answer:1, explanation:"push() aggiunge un elemento in fondo: l'array diventa [10,20,30,40], lunghezza 4." },
+
+  { id:23, tag:"Array", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> arr = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>];
+<span class="kw">console</span>.<span class="fn">log</span>(arr[<span class="num">1</span>]);`,
+    options:['"a"','"b"','"c"',"undefined"],
+    answer:1, explanation:"Gli indici degli array partono da 0: arr[0]='a', arr[1]='b', arr[2]='c'." },
+
+  { id:24, tag:"Array", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> arr = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+arr.<span class="fn">pop</span>();
+arr.<span class="fn">push</span>(<span class="num">40</span>, <span class="num">50</span>);
+<span class="kw">console</span>.<span class="fn">log</span>(arr[<span class="num">2</span>]);`,
+    options:["30","40","50","undefined"],
+    answer:1, explanation:"pop() rimuove l'ultimo elemento (30), poi push(40,50) aggiunge due elementi: l'array diventa [10,20,40,50]. arr[2] è il terzo elemento: 40." },
+
+  // --- For loops ---
+  { id:25, tag:"Ciclo for", text:"Quante volte viene eseguito il corpo di questo ciclo?",
+    code:`<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i++) {
+  <span class="kw">console</span>.<span class="fn">log</span>(i);
+}`,
+    options:["4","5","6","Infinito"],
+    answer:1, explanation:"i parte da 0 e sale finché i < 5: i = 0,1,2,3,4 → 5 iterazioni." },
+
+  { id:26, tag:"Ciclo for", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> sum = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">1</span>; i <= <span class="num">3</span>; i++) {
+  sum += i;
+}
+<span class="kw">console</span>.<span class="fn">log</span>(sum);`,
+    options:["3","6","5","undefined"],
+    answer:1, explanation:"sum = 0+1+2+3 = 6." },
+
+  // --- While loops ---
+  { id:27, tag:"Ciclo while", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> i = <span class="num">3</span>;
+<span class="kw">while</span> (i > <span class="num">0</span>) {
+  <span class="kw">console</span>.<span class="fn">log</span>(i);
+  i--;
+}`,
+    options:["3 2 1","1 2 3","3 2 1 0","Ciclo infinito"],
+    answer:0, explanation:"i parte da 3, viene stampato e decrementato finché i > 0: stampa 3, poi 2, poi 1." },
+
+  { id:28, tag:"Ciclo while", text:"Qual è la differenza tra <code>while</code> e <code>do...while</code>?",
+    code: null,
+    options:["Nessuna differenza","do...while esegue il corpo almeno una volta","while esegue sempre una volta in più","do...while è più veloce"],
+    answer:1, explanation:"do...while controlla la condizione dopo la prima esecuzione, garantendo almeno un'iterazione." },
+
+  // --- Conditionals ---
+  { id:29, tag:"Condizionali", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> x = <span class="num">10</span>;
+<span class="kw">if</span> (x > <span class="num">5</span>) {
+  <span class="kw">console</span>.<span class="fn">log</span>(<span class="str">"grande"</span>);
+} <span class="kw">else</span> {
+  <span class="kw">console</span>.<span class="fn">log</span>(<span class="str">"piccolo"</span>);
+}`,
+    options:['"piccolo"','"grande"',"undefined","TypeError"],
+    answer:1, explanation:"10 > 5 è true, quindi si esegue il ramo if: stampa 'grande'." },
+
+  { id:30, tag:"Condizionali", text:"Cosa stampa il seguente codice?",
+    code:`<span class="kw">let</span> x = <span class="num">15</span>;
+<span class="kw">let</span> r;
+<span class="kw">if</span> (x > <span class="num">20</span>) {
+  r = <span class="str">"grande"</span>;
+} <span class="kw">else if</span> (x > <span class="num">10</span>) {
+  r = <span class="str">"medio"</span>;
+} <span class="kw">else</span> {
+  r = <span class="str">"piccolo"</span>;
+}
+<span class="kw">console</span>.<span class="fn">log</span>(r);`,
+    options:['"grande"','"medio"','"piccolo"',"undefined"],
+    answer:1, explanation:"15 non è > 20, ma è > 10, quindi si entra nel ramo else if e r vale 'medio'." },
+];
+
+// =====================================================================
+// EXERCISES
+// =====================================================================
+
+const blocks = [
+  {
+    id:1, icon:"①", title:"Blocco 1 — Variabili, Tipi e Funzioni",
+    subtitle:"Variabili, typeof, validazione e conversione di tipi",
+    colorClass:"block-1",
+    exercises:[
+      {
+        id:"1.1", difficulty:"easy", title:"Anagrafica studente con typeof",
+        desc:"Esercizio base: dichiarazione di variabili e ispezione dei tipi.",
+        task:"Dichiara le variabili: <code>nome</code> (stringa con il tuo nome), <code>matricola</code> (numero intero), <code>media</code> (numero decimale), <code>fuoriCorso</code> (booleano). Poi stampa con <code>console.log</code> una riga per ciascuna variabile nel formato: <strong>\"nome → tipo: string, valore: Mario\"</strong>. Usa <code>typeof</code> per ottenere il tipo.",
+        hint:"Usa let o const. Ripeti console.log quattro volte, una per variabile. typeof restituisce una stringa come 'string', 'number', 'boolean'.",
+        test: (output) => {
+          return (output.match(/tipo\s*:/gi) || []).length >= 4 &&
+                 (output.match(/valore\s*:/gi) || []).length >= 4;
+        },
+        solution:`const nome = "Mario";
+const matricola = 12345;
+const media = 27.5;
+const fuoriCorso = false;
+console.log("nome → tipo: " + typeof nome + ", valore: " + nome);
+console.log("matricola → tipo: " + typeof matricola + ", valore: " + matricola);
+console.log("media → tipo: " + typeof media + ", valore: " + media);
+console.log("fuoriCorso → tipo: " + typeof fuoriCorso + ", valore: " + fuoriCorso);`
+      },
+      {
+        id:"1.2", difficulty:"intermediate", title:"Funzione di validazione con typeof",
+        desc:"Richiede di aver completato 1.1. Usa le stesse variabili dell'esercizio precedente.",
+        task:"Scrivi una funzione <code>validaAnagrafica(nome, matricola, media, fuoriCorso)</code> che controlla: (1) nome è una stringa non vuota, (2) matricola è un numero intero positivo (<code>Number.isInteger</code>), (3) media è un numero tra 18 e 30 inclusi, (4) fuoriCorso è un booleano. Se tutti i controlli passano stampa <strong>\"Dati validi: [nome]\"</strong>, altrimenti stampa <strong>\"Errore: [descrizione del problema]\"</strong>. Testala con i valori di 1.1 e poi con almeno un dato errato.",
+        hint:"Usa if/else if a cascata. Controlla typeof per ciascun campo. Per verificare che sia intero: Number.isInteger(). Restituisci prima dell'errore non appena ne trovi uno.",
+        test: (output) => {
+          return /validi/i.test(output) && /errore/i.test(output);
+        },
+        solution:`function validaAnagrafica(nome, matricola, media, fuoriCorso) {
+  if (typeof nome !== "string" || nome.trim() === "") {
+    console.log("Errore: nome non valido");
+    return;
+  }
+  if (!Number.isInteger(matricola) || matricola <= 0) {
+    console.log("Errore: matricola non valida");
+    return;
+  }
+  if (typeof media !== "number" || media < 18 || media > 30) {
+    console.log("Errore: media non valida (deve essere tra 18 e 30)");
+    return;
+  }
+  if (typeof fuoriCorso !== "boolean") {
+    console.log("Errore: fuoriCorso deve essere un booleano");
+    return;
+  }
+  console.log("Dati validi: " + nome);
+}
+validaAnagrafica("Mario", 12345, 27.5, false);
+validaAnagrafica("", 12345, 27.5, false);
+validaAnagrafica("Anna", 99, 35, true);`
+      },
+      {
+        id:"1.3", difficulty:"difficult", title:"Convertitore e normalizzatore di dati",
+        desc:"Richiede di aver completato 1.1 e 1.2. Estende la validazione con conversione e normalizzazione.",
+        task:"Scrivi una funzione <code>normalizzaStudente(obj)</code> che riceve un oggetto con campi potenzialmente 'sporchi' (es. <code>{ nome: \"  mario  \", matricola: \"12345\", media: \"27.5\", fuoriCorso: \"false\" }</code>) e: (1) converte <code>matricola</code> in numero intero con <code>parseInt</code>, (2) converte <code>media</code> in numero decimale con <code>parseFloat</code>, (3) converte <code>fuoriCorso</code>: se è la stringa <code>\"true\"</code> → <code>true</code>, altrimenti → <code>false</code>, (4) fa il <code>trim()</code> del nome. Poi chiama <code>validaAnagrafica</code> (dall'esercizio 1.2) con i dati normalizzati. Stampa anche l'oggetto normalizzato riga per riga.",
+        hint:"Usa parseInt() e parseFloat() per la conversione. Per il booleano usa un confronto: fuoriCorso === 'true'. Puoi costruire un nuovo oggetto con i campi convertiti.",
+        test: (output) => {
+          return /validi/i.test(output) && /mario/i.test(output);
+        },
+        solution:`function validaAnagrafica(nome, matricola, media, fuoriCorso) {
+  if (typeof nome !== "string" || nome.trim() === "") {
+    console.log("Errore: nome non valido");
+    return;
+  }
+  if (!Number.isInteger(matricola) || matricola <= 0) {
+    console.log("Errore: matricola non valida");
+    return;
+  }
+  if (typeof media !== "number" || media < 18 || media > 30) {
+    console.log("Errore: media non valida (deve essere tra 18 e 30)");
+    return;
+  }
+  if (typeof fuoriCorso !== "boolean") {
+    console.log("Errore: fuoriCorso deve essere un booleano");
+    return;
+  }
+  console.log("Dati validi: " + nome);
+}
+function normalizzaStudente(obj) {
+  const nomeNorm = obj.nome.trim();
+  const matricolaNorm = parseInt(obj.matricola);
+  const mediaNorm = parseFloat(obj.media);
+  const fuoriCorsoNorm = obj.fuoriCorso === "true";
+  console.log("nome: " + nomeNorm);
+  console.log("matricola: " + matricolaNorm);
+  console.log("media: " + mediaNorm);
+  console.log("fuoriCorso: " + fuoriCorsoNorm);
+  validaAnagrafica(nomeNorm, matricolaNorm, mediaNorm, fuoriCorsoNorm);
+}
+normalizzaStudente({ nome: "  mario  ", matricola: "12345", media: "27.5", fuoriCorso: "false" });`
+      }
+    ]
+  },
+  {
+    id:2, icon:"②", title:"Blocco 2 — Array e Cicli",
+    subtitle:"Manipolazione di array, cicli for/while, ricerca e ordinamento",
+    colorClass:"block-2",
+    exercises:[
+      {
+        id:"2.1", difficulty:"easy", title:"Analisi base di un array di voti",
+        desc:"Esercizio base sugli array con ciclo for.",
+        task:"Dichiara un array <code>voti</code> con almeno 6 numeri interi tra 18 e 30. Usa un ciclo <code>for</code> per calcolare: la <strong>somma</strong> totale, la <strong>media</strong> (somma / lunghezza) e il <strong>conteggio dei voti sufficienti</strong> (>= 18). Stampa i tre valori nel formato: <strong>\"Somma: X\"</strong>, <strong>\"Media: X\"</strong>, <strong>\"Sufficienti: X\"</strong>.",
+        hint:"Inizializza somma = 0 e sufficienti = 0 prima del ciclo. Accedi agli elementi con voti[i]. La media si calcola dopo il ciclo.",
+        test: (output) => /somma\s*:/i.test(output) && /media\s*:/i.test(output) && /sufficienti\s*:/i.test(output),
+        solution:`const voti = [22, 28, 18, 30, 25, 19];
+let somma = 0;
+let sufficienti = 0;
+for (let i = 0; i < voti.length; i++) {
+  somma += voti[i];
+  if (voti[i] >= 18) {
+    sufficienti++;
+  }
+}
+const media = somma / voti.length;
+console.log("Somma: " + somma);
+console.log("Media: " + media);
+console.log("Sufficienti: " + sufficienti);`
+      },
+      {
+        id:"2.2", difficulty:"intermediate", title:"Ricerca e sostituzione nell'array",
+        desc:"Richiede di aver completato 2.1. Lavora sullo stesso array <code>voti</code>.",
+        task:"Usando l'array <code>voti</code> dell'esercizio 2.1, scrivi una funzione <code>trovaMassimo(arr)</code> che restituisce il valore massimo dell'array (senza usare <code>Math.max</code>). Poi scrivi una funzione <code>sostituisciMinori(arr, soglia, nuovoValore)</code> che restituisce un <strong>nuovo array</strong> in cui ogni elemento minore di <code>soglia</code> è sostituito con <code>nuovoValore</code> (usa un ciclo <code>for</code> e <code>push()</code>). Stampa il massimo e poi il nuovo array con <code>join(\", \")</code>.",
+        hint:"Per trovaMassimo: inizializza max = arr[0] e confronta ad ogni iterazione. Per sostituisciMinori: crea un array vuoto e usa push() dentro il ciclo.",
+        test: (output) => {
+          const lines = output.trim().split("\n");
+          return lines.length >= 2 && /\d+/.test(lines[0]) && /\d/.test(lines[1]);
+        },
+        solution:`const voti = [22, 28, 18, 30, 25, 19];
+function trovaMassimo(arr) {
+  let max = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  return max;
+}
+function sostituisciMinori(arr, soglia, nuovoValore) {
+  const risultato = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < soglia) {
+      risultato.push(nuovoValore);
+    } else {
+      risultato.push(arr[i]);
+    }
+  }
+  return risultato;
+}
+console.log("Massimo: " + trovaMassimo(voti));
+const corretto = sostituisciMinori(voti, 22, 22);
+console.log("Array corretto: " + corretto.join(", "));`
+      },
+      {
+        id:"2.3", difficulty:"difficult", title:"Ordinamento e deduplicazione",
+        desc:"Richiede di aver completato 2.1 e 2.2. Usa le funzioni già scritte.",
+        task:"Scrivi una funzione <code>ordinaCrescente(arr)</code> che ordina una <strong>copia</strong> dell'array in modo crescente usando il <strong>bubble sort</strong> (doppio ciclo for, senza Array.sort). Poi scrivi una funzione <code>rimuoviDuplicati(arr)</code> che restituisce un nuovo array senza valori duplicati (usa un ciclo for e controlla con un altro ciclo interno se l'elemento è già presente). Infine: chiama <code>ordinaCrescente</code> sull'array <code>voti</code> di 2.1, poi chiama <code>rimuoviDuplicati</code> sul risultato, e stampa entrambi gli array con <code>join(\", \")</code>.",
+        hint:"Bubble sort: ciclo esterno 0..n-1, ciclo interno 0..n-2, se arr[j] > arr[j+1] scambia i due valori con una variabile temporanea. Per rimuoviDuplicati: ciclo esterno sull'array, ciclo interno sull'array risultato per verificare se c'è già.",
+        test: (output) => {
+          const lines = output.trim().split("\n");
+          if (lines.length < 2) return false;
+          const first = lines[0].split(",").map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+          let sorted = true;
+          for (let i = 0; i < first.length - 1; i++) {
+            if (first[i] > first[i+1]) { sorted = false; break; }
+          }
+          return sorted && first.length >= 2;
+        },
+        solution:`const voti = [22, 28, 18, 30, 25, 19];
+function ordinaCrescente(arr) {
+  const copia = [];
+  for (let i = 0; i < arr.length; i++) copia.push(arr[i]);
+  for (let i = 0; i < copia.length - 1; i++) {
+    for (let j = 0; j < copia.length - 1 - i; j++) {
+      if (copia[j] > copia[j + 1]) {
+        const tmp = copia[j];
+        copia[j] = copia[j + 1];
+        copia[j + 1] = tmp;
+      }
+    }
+  }
+  return copia;
+}
+function rimuoviDuplicati(arr) {
+  const unici = [];
+  for (let i = 0; i < arr.length; i++) {
+    let trovato = false;
+    for (let j = 0; j < unici.length; j++) {
+      if (unici[j] === arr[i]) {
+        trovato = true;
+        break;
+      }
+    }
+    if (!trovato) {
+      unici.push(arr[i]);
+    }
+  }
+  return unici;
+}
+const ordinati = ordinaCrescente(voti);
+const senzaDuplicati = rimuoviDuplicati(ordinati);
+console.log("Ordinati: " + ordinati.join(", "));
+console.log("Senza duplicati: " + senzaDuplicati.join(", "));`
+      }
+    ]
+  },
+  {
+    id:3, icon:"③", title:"Blocco 3 — Funzioni e Oggetti",
+    subtitle:"Oggetti, metodi, array di oggetti e logica combinata",
+    colorClass:"block-3",
+    exercises:[
+      {
+        id:"3.1", difficulty:"easy", title:"Oggetto studente con metodi",
+        desc:"Esercizio base sugli oggetti con metodi.",
+        task:"Crea un oggetto <code>studente</code> con le proprietà: <code>nome</code> (stringa), <code>matricola</code> (numero), <code>voti</code> (array di almeno 4 numeri tra 18 e 30). Aggiungi due metodi: <code>mediaVoti()</code> che calcola e restituisce la media, e <code>votoMassimo()</code> che restituisce il voto più alto (senza usare Math.max). Stampa nome, media e voto massimo nel formato: <strong>\"Studente: Mario | Media: 26.5 | Max: 30\"</strong>.",
+        hint:"Dentro i metodi usa this.voti per accedere all'array. Per mediaVoti: ciclo for con somma / lunghezza. Per votoMassimo: inizializza max = this.voti[0] e confronta.",
+        test: (output) => /studente\s*:/i.test(output) && /media\s*:/i.test(output) && /max\s*:/i.test(output),
+        solution:`const studente = {
+  nome: "Mario",
+  matricola: 22001,
+  voti: [28, 30, 25, 24],
+  mediaVoti() {
+    let somma = 0;
+    for (let i = 0; i < this.voti.length; i++) {
+      somma += this.voti[i];
+    }
+    return somma / this.voti.length;
+  },
+  votoMassimo() {
+    let max = this.voti[0];
+    for (let i = 1; i < this.voti.length; i++) {
+      if (this.voti[i] > max) {
+        max = this.voti[i];
+      }
+    }
+    return max;
+  }
+};
+console.log("Studente: " + studente.nome + " | Media: " + studente.mediaVoti() + " | Max: " + studente.votoMassimo());`
+      },
+      {
+        id:"3.2", difficulty:"intermediate", title:"Rubrica con ricerca e filtraggio",
+        desc:"Richiede di aver completato 3.1. Usa la struttura oggetto vista in 3.1.",
+        task:"Crea un array <code>rubrica</code> con almeno 4 oggetti studente (nome, matricola, voti[]). Scrivi tre funzioni: (1) <code>calcolaMedia(voti)</code> che calcola la media di un array di numeri con un ciclo for; (2) <code>cercaPerNome(rubrica, nome)</code> che restituisce l'oggetto studente con quel nome, o <code>null</code> se non esiste; (3) <code>studentiSopraMedia(rubrica)</code> che restituisce un <strong>nuovo array</strong> con solo gli studenti la cui media è strettamente superiore alla media generale di tutti i voti. Stampa il nome dello studente trovato con cercaPerNome e i nomi degli studenti sopra media.",
+        hint:"Per la media generale: somma tutte le medie e dividi per rubrica.length. Per studentiSopraMedia: ciclo for con push() sul nuovo array. Per cercaPerNome: ciclo for con confronto sul nome, restituisce l'oggetto o null.",
+        test: (output) => {
+          const lines = output.trim().split("\n");
+          return lines.length >= 2 && output.length > 10;
+        },
+        solution:`function calcolaMedia(voti) {
+  let somma = 0;
+  for (let i = 0; i < voti.length; i++) {
+    somma += voti[i];
+  }
+  return somma / voti.length;
+}
+function cercaPerNome(rubrica, nome) {
+  for (let i = 0; i < rubrica.length; i++) {
+    if (rubrica[i].nome === nome) {
+      return rubrica[i];
+    }
+  }
+  return null;
+}
+function studentiSopraMedia(rubrica) {
+  let sommaMediae = 0;
+  for (let i = 0; i < rubrica.length; i++) {
+    sommaMediae += calcolaMedia(rubrica[i].voti);
+  }
+  const mediaGenerale = sommaMediae / rubrica.length;
+  const risultato = [];
+  for (let i = 0; i < rubrica.length; i++) {
+    if (calcolaMedia(rubrica[i].voti) > mediaGenerale) {
+      risultato.push(rubrica[i]);
+    }
+  }
+  return risultato;
+}
+const rubrica = [
+  { nome: "Luca",   matricola: 1, voti: [25, 28, 22] },
+  { nome: "Anna",   matricola: 2, voti: [30, 29, 28] },
+  { nome: "Marco",  matricola: 3, voti: [20, 18, 19] },
+  { nome: "Chiara", matricola: 4, voti: [27, 26, 30] }
+];
+const trovato = cercaPerNome(rubrica, "Anna");
+console.log("Trovato: " + (trovato ? trovato.nome : "non trovato"));
+const sopraMedia = studentiSopraMedia(rubrica);
+for (let i = 0; i < sopraMedia.length; i++) {
+  console.log("Sopra media: " + sopraMedia[i].nome);
+}`
+      },
+      {
+        id:"3.3", difficulty:"difficult", title:"Classifica ordinata e report finale",
+        desc:"Richiede di aver completato 3.1 e 3.2. Usa calcolaMedia e la rubrica di 3.2.",
+        task:"Usando le funzioni <code>calcolaMedia</code> e la <code>rubrica</code> dell'esercizio 3.2, scrivi una funzione <code>generaClassifica(rubrica)</code> che: (1) costruisce un nuovo array di oggetti <code>{ nome, media }</code> con un ciclo for e push(); (2) ordina questo array in ordine <strong>decrescente</strong> per media usando il <strong>selection sort</strong> (doppio ciclo for, senza Array.sort); (3) restituisce un array di stringhe nel formato <strong>\"#1 Anna — 29.00\"</strong> usando <code>toFixed(2)</code>. Poi scrivi una funzione <code>report(rubrica)</code> che stampa: la classifica completa, il nome del primo classificato, e il nome dell'ultimo classificato. Chiamala con la rubrica di 3.2.",
+        hint:"Selection sort decrescente: cerchi il massimo nella parte non ordinata e lo scambi con la posizione corrente. Usa una variabile tmp per lo scambio. Per costruire la stringa classifica usa un ciclo for con push().",
+        test: (output) => {
+          return (output.match(/#\d/g) || []).length >= 3 &&
+                 /primo/i.test(output) && /ultimo/i.test(output);
+        },
+        solution:`function calcolaMedia(voti) {
+  let somma = 0;
+  for (let i = 0; i < voti.length; i++) somma += voti[i];
+  return somma / voti.length;
+}
+function generaClassifica(rubrica) {
+  const arr = [];
+  for (let i = 0; i < rubrica.length; i++) {
+    arr.push({ nome: rubrica[i].nome, media: calcolaMedia(rubrica[i].voti) });
+  }
+  for (let i = 0; i < arr.length - 1; i++) {
+    let maxIdx = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j].media > arr[maxIdx].media) {
+        maxIdx = j;
+      }
+    }
+    if (maxIdx !== i) {
+      const tmp = arr[i];
+      arr[i] = arr[maxIdx];
+      arr[maxIdx] = tmp;
+    }
+  }
+  const righe = [];
+  for (let i = 0; i < arr.length; i++) {
+    righe.push("#" + (i + 1) + " " + arr[i].nome + " — " + arr[i].media.toFixed(2));
+  }
+  return righe;
+}
+function report(rubrica) {
+  const classifica = generaClassifica(rubrica);
+  for (let i = 0; i < classifica.length; i++) {
+    console.log(classifica[i]);
+  }
+  const primo = generaClassifica(rubrica)[0];
+  const ultimo = generaClassifica(rubrica)[classifica.length - 1];
+  console.log("Primo classificato: " + primo.split(" ")[1]);
+  console.log("Ultimo classificato: " + ultimo.split(" ")[1]);
+}
+const rubrica = [
+  { nome: "Luca",   matricola: 1, voti: [25, 28, 22] },
+  { nome: "Anna",   matricola: 2, voti: [30, 29, 28] },
+  { nome: "Marco",  matricola: 3, voti: [20, 18, 19] },
+  { nome: "Chiara", matricola: 4, voti: [27, 26, 30] }
+];
+report(rubrica);`
+      }
+    ]
+  }
+];
+
+// =====================================================================
+// STATE
+// =====================================================================
+
+const state = {
+  answers: {},  // qId -> optionIndex
+  corrected: false,
+  exerciseStatus: {} // exId -> 'completed' | 'failed'
+};
+
+// =====================================================================
+// NAVIGATION
+// =====================================================================
+
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const names = ['quiz','exercises','solutions'];
+  tabs[names.indexOf(name)].classList.add('active');
+}
+
+// =====================================================================
+// QUIZ RENDERING
+// =====================================================================
+
+function renderQuiz() {
+  const c = document.getElementById('questionsContainer');
+  c.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = 'q-card-' + q.id;
+
+    const codeHtml = q.code ? `<pre class="code-snippet">${q.code}</pre>` : '';
+    const optionsHtml = q.options.map((opt, oi) => `
+      <label class="option" id="opt-${q.id}-${oi}" onclick="selectAnswer(${q.id}, ${oi})">
+        <input type="radio" name="q${q.id}" value="${oi}"> ${opt}
+      </label>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="q-header">
+        <span class="q-num">Q${String(qi+1).padStart(2,'0')}</span>
+        <span class="q-tag">${q.tag}</span>
+        <span class="q-text">${q.text}</span>
+      </div>
+      ${codeHtml}
+      <div class="options">${optionsHtml}</div>
+      <div class="q-feedback" id="fb-${q.id}"></div>
+    `;
+    c.appendChild(card);
+  });
+}
+
+function selectAnswer(qId, optIdx) {
+  if (state.corrected) return;
+  state.answers[qId] = optIdx;
+
+  // Visual update
+  questions.forEach(q => {
+    if (q.id !== qId) return;
+    q.options.forEach((_, oi) => {
+      const el = document.getElementById(`opt-${qId}-${oi}`);
+      el.classList.toggle('selected', oi === optIdx);
+    });
+  });
+
+  const card = document.getElementById('q-card-' + qId);
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function updateProgress() {
+  const answered = Object.keys(state.answers).length;
+  document.getElementById('answeredCount').textContent = answered;
+  document.getElementById('quizProgress').style.width = (answered / 30 * 100) + '%';
+}
+
+function correctAll() {
+  state.corrected = true;
+  let correct = 0;
+
+  questions.forEach(q => {
+    const userAns = state.answers[q.id];
+    const card = document.getElementById('q-card-' + q.id);
+    const fb = document.getElementById('fb-' + q.id);
+
+    // Disable options
+    q.options.forEach((_, oi) => {
+      const el = document.getElementById(`opt-${q.id}-${oi}`);
+      el.classList.add('disabled');
+    });
+
+    if (userAns === undefined) {
+      // Not answered
+      const correct_el = document.getElementById(`opt-${q.id}-${q.answer}`);
+      correct_el.classList.add('correct-ans');
+      fb.className = 'q-feedback show fail';
+      fb.textContent = `✗ Non risposto. Risposta corretta: opzione ${q.answer + 1}. ${q.explanation}`;
+      card.classList.add('wrong');
+    } else if (userAns === q.answer) {
+      document.getElementById(`opt-${q.id}-${userAns}`).classList.add('correct-ans');
+      fb.className = 'q-feedback show ok';
+      fb.textContent = `✓ Corretto! ${q.explanation}`;
+      card.classList.add('correct');
+      card.classList.remove('answered');
+      correct++;
+    } else {
+      document.getElementById(`opt-${q.id}-${userAns}`).classList.add('wrong-ans');
+      document.getElementById(`opt-${q.id}-${q.answer}`).classList.add('correct-ans');
+      fb.className = 'q-feedback show fail';
+      fb.textContent = `✗ Sbagliato. Risposta corretta: "${q.options[q.answer]}". ${q.explanation}`;
+      card.classList.add('wrong');
+      card.classList.remove('answered');
+    }
+  });
+
+  // Show results
+  const banner = document.getElementById('resultsBanner');
+  banner.classList.add('show');
+  document.getElementById('resultScore').textContent = correct + '/30';
+
+  const pct = correct / 30;
+  let grade, gradeStyle;
+  if (pct >= 0.9) { grade = '30 / OTTIMO'; gradeStyle = `background:rgba(52,211,153,0.15);color:var(--green);border:1px solid rgba(52,211,153,0.3)`; }
+  else if (pct >= 0.75) { grade = '27–29 / BUONO'; gradeStyle = `background:rgba(79,156,249,0.15);color:var(--accent);border:1px solid rgba(79,156,249,0.3)`; }
+  else if (pct >= 0.6) { grade = '24–26 / DISCRETO'; gradeStyle = `background:rgba(251,191,36,0.15);color:var(--yellow);border:1px solid rgba(251,191,36,0.3)`; }
+  else if (pct >= 0.5) { grade = '18–23 / SUFFICIENTE'; gradeStyle = `background:rgba(251,191,36,0.15);color:var(--yellow);border:1px solid rgba(251,191,36,0.3)`; }
+  else { grade = 'INSUFFICIENTE'; gradeStyle = `background:rgba(248,113,113,0.15);color:var(--red);border:1px solid rgba(248,113,113,0.3)`; }
+
+  const gradeEl = document.getElementById('resultGrade');
+  gradeEl.textContent = grade;
+  gradeEl.setAttribute('style', gradeStyle);
+
+  document.getElementById('scoreDisplay').textContent = correct + '/30';
+  banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz() {
+  state.answers = {};
+  state.corrected = false;
+  document.getElementById('resultsBanner').classList.remove('show');
+  document.getElementById('answeredCount').textContent = '0';
+  document.getElementById('quizProgress').style.width = '0%';
+  document.getElementById('scoreDisplay').textContent = '—';
+  renderQuiz();
+}
+
+// =====================================================================
+// EXERCISES RENDERING
+// =====================================================================
+
+function renderExercises() {
+  const c = document.getElementById('exercisesContainer');
+  c.innerHTML = '';
+
+  blocks.forEach(block => {
+    // Block header
+    const bh = document.createElement('div');
+    bh.className = `block-header ${block.colorClass}`;
+    bh.innerHTML = `
+      <div class="block-icon">${block.icon}</div>
+      <div>
+        <div class="block-title">${block.title}</div>
+        <div class="block-subtitle">${block.subtitle}</div>
+      </div>`;
+    c.appendChild(bh);
+
+    block.exercises.forEach((ex, exIdx) => {
+      const card = document.createElement('div');
+      card.className = 'exercise-card';
+      card.id = 'ex-card-' + ex.id;
+
+      const isLocked = exIdx > 0 && !isExCompleted(block.exercises[exIdx-1].id);
+
+      const statusIcon = isExCompleted(ex.id) ? '✅' : (isExFailed(ex.id) ? '❌' : '');
+
+      card.innerHTML = `
+        <div class="ex-header">
+          <span class="ex-badge ${ex.difficulty}">${ex.difficulty}</span>
+          <span class="ex-title">Esercizio ${ex.id}: ${ex.title}</span>
+          <span class="ex-status" id="ex-status-${ex.id}">${statusIcon}</span>
+        </div>
+        <div class="ex-desc">${ex.desc}</div>
+        <div class="ex-task"><strong>📋 Consegna</strong>${ex.task}</div>
+        <textarea class="ex-editor" id="editor-${ex.id}" spellcheck="false" placeholder="// Scrivi qui il tuo codice JavaScript...">${getEditorContent(ex.id)}</textarea>
+        <div class="ex-controls">
+          <button class="btn-run" onclick="runExercise('${ex.id}')">▶ Esegui</button>
+          <button class="btn-hint" onclick="toggleHint('${ex.id}')">💡 Suggerimento</button>
+        </div>
+        <div class="ex-output" id="output-${ex.id}"></div>
+        <div class="ex-output" id="hint-${ex.id}" style="display:none;color:var(--yellow);border-color:rgba(251,191,36,0.3)">💡 ${ex.hint}</div>
+        ${isLocked ? `<div class="lock-overlay"><span class="lock-icon">🔒</span><span>Completa l'esercizio ${block.exercises[exIdx-1].id} per sbloccare</span></div>` : ''}
+      `;
+
+      if (isLocked) card.classList.add('locked');
+      if (isExCompleted(ex.id)) card.classList.add('completed');
+      if (isExFailed(ex.id)) card.classList.add('failed');
+
+      c.appendChild(card);
+    });
+  });
+}
+
+const editorContents = {};
+
+function getEditorContent(exId) {
+  return editorContents[exId] || '';
+}
+
+function isExCompleted(id) { return state.exerciseStatus[id] === 'completed'; }
+function isExFailed(id) { return state.exerciseStatus[id] === 'failed'; }
+
+function toggleHint(exId) {
+  const hint = document.getElementById('hint-' + exId);
+  hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
+}
+
+function runExercise(exId) {
+  const code = document.getElementById('editor-' + exId).value;
+  editorContents[exId] = code;
+  const out = document.getElementById('output-' + exId);
+  out.classList.add('show');
+
+  // Find exercise
+  let ex = null;
+  for (const b of blocks) for (const e of b.exercises) if (e.id === exId) ex = e;
+  if (!ex) return;
+
+  // Capture console.log
+  let logs = [];
+  const origLog = console.log;
+  console.log = (...args) => { logs.push(args.map(a => String(a)).join(' ')); };
+
+  let error = null;
+  try {
+    // eslint-disable-next-line no-new-func
+    new Function(code)();
+  } catch(e) {
+    error = e;
+  }
+  console.log = origLog;
+
+  const output = logs.join('\n');
+
+  if (error) {
+    out.className = 'ex-output show out-err';
+    out.textContent = '⚠ Errore: ' + error.message;
+    return;
+  }
+
+  // Run test
+  let passed = false;
+  try { passed = ex.test(output); } catch(e) { passed = false; }
+
+  if (passed) {
+    out.className = 'ex-output show out-ok';
+    out.textContent = '✓ Output:\n' + output + '\n\n✅ Esercizio superato!';
+    state.exerciseStatus[exId] = 'completed';
+  } else {
+    out.className = 'ex-output show out-neutral';
+    out.textContent = 'Output:\n' + (output || '(nessun output)') + '\n\n⚠ Il risultato non corrisponde ai criteri. Riprova.';
+    state.exerciseStatus[exId] = 'failed';
+  }
+
+  renderExercises(); // re-render to update locks/status
+  // Scroll back to this card
+  setTimeout(() => {
+    const card = document.getElementById('ex-card-' + exId);
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+// =====================================================================
+// SOLUTIONS RENDERING
+// =====================================================================
+
+function renderSolutions() {
+  const c = document.getElementById('solutionsContainer');
+  c.innerHTML = '';
+
+  blocks.forEach(block => {
+    const bh = document.createElement('div');
+    bh.className = `block-header ${block.colorClass}`;
+    bh.innerHTML = `
+      <div class="block-icon">${block.icon}</div>
+      <div>
+        <div class="block-title">${block.title}</div>
+        <div class="block-subtitle">${block.subtitle}</div>
+      </div>`;
+    c.appendChild(bh);
+
+    block.exercises.forEach(ex => {
+      const card = document.createElement('div');
+      card.className = 'sol-card';
+      card.innerHTML = `
+        <div class="sol-title">
+          <span class="ex-badge ${ex.difficulty}">${ex.difficulty}</span>
+          Esercizio ${ex.id}: ${ex.title}
+        </div>
+        <div class="sol-desc">${ex.task}</div>
+        <pre class="code-snippet" style="font-size:0.8rem">${escapeHtml(ex.solution)}</pre>
+        <div class="sol-explanation">💡 <strong>Spiegazione:</strong> ${getSolExplanation(ex.id)}</div>
+      `;
+      c.appendChild(card);
+    });
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getSolExplanation(id) {
+  const expl = {
+    "1.1": "Si dichiarano quattro variabili con <code>const</code> di tipi diversi. Si usa <code>typeof</code> per ottenere il tipo di ciascuna e si stampa con <code>console.log</code> concatenando le stringhe con l'operatore <code>+</code>.",
+    "1.2": "La funzione usa <code>typeof</code> e <code>Number.isInteger()</code> per validare ogni campo. Appena trova un dato non valido stampa un messaggio di errore ed esce con <code>return</code>. Questo pattern si chiama 'early return' o 'guard clause'.",
+    "1.3": "Le funzioni <code>parseInt</code> e <code>parseFloat</code> convertono stringhe in numeri. Per il booleano si usa il confronto stretto <code>=== 'true'</code>. Il <code>trim()</code> rimuove gli spazi iniziali e finali dalla stringa. Poi si richiama la funzione di validazione già scritta.",
+    "2.1": "Si itera con un indice da 0 a <code>length-1</code>, accumulando somma e conteggio sufficienti in variabili inizializzate a 0. La media si calcola fuori dal ciclo dividendo somma per lunghezza.",
+    "2.2": "<code>trovaMassimo</code> confronta ogni elemento con il massimo corrente partendo da <code>arr[0]</code>. <code>sostituisciMinori</code> costruisce un nuovo array con <code>push()</code>: se l'elemento è sotto soglia inserisce <code>nuovoValore</code>, altrimenti l'elemento originale.",
+    "2.3": "Il bubble sort confronta coppie adiacenti e le scambia usando una variabile temporanea <code>tmp</code>. Per <code>rimuoviDuplicati</code> si usa un ciclo interno sull'array risultato per verificare se l'elemento è già presente prima di fare <code>push()</code>.",
+    "3.1": "Un oggetto letterale con due metodi: <code>this</code> si riferisce all'oggetto corrente. <code>mediaVoti()</code> usa un ciclo for con somma / lunghezza. <code>votoMassimo()</code> inizializza il massimo con il primo voto e confronta gli altri.",
+    "3.2": "Le tre funzioni si separano in base alla responsabilità. <code>cercaPerNome</code> usa un ciclo for e restituisce l'oggetto trovato o <code>null</code>. <code>studentiSopraMedia</code> calcola prima la media generale, poi raccoglie con <code>push()</code> solo gli studenti sopra tale media.",
+    "3.3": "Il selection sort cerca il massimo nella parte non ordinata e lo scambia con la posizione <code>i</code> usando una variabile temporanea. Le stringhe della classifica si costruiscono con un ciclo for e <code>push()</code>. <code>toFixed(2)</code> formatta la media con due decimali."
+  };
+  return expl[id] || '';
+}
+
+// =====================================================================
+// INIT
+// =====================================================================
+
+renderQuiz();
+renderExercises();
+renderSolutions();
+</script>
+</body>
+</html>
