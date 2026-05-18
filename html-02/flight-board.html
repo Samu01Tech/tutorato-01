@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Board</title>
+    <style>
+      body {
+        font-family: monospace;
+        background-color: #333;
+        font-size: 18px;
+        color: white;
+      }
+      h1 {
+        text-align: center;
+      }
+      table {
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 10px 20px;
+        text-align: left;
+        border: 1px solid #ccc;
+        color: #f2fd22;
+      }
+      th {
+        color: white;
+      }
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #f2fd22;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #e6e600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Partenze Aerei</h1>
+    <main>
+      <table id="partenze" border="1">
+        <tr>
+          <th>Codice</th>
+          <th>Destinazione</th>
+          <th>Stato</th>
+        </tr>
+      </table>
+      <button onclick="avanza()">Avanza</button>
+    </main>
+  </body>
+  <script>
+    const voli = [
+      { codice: "AZ123", destinazione: "Roma", stato: "IMBARCO" },
+      { codice: "BA456", destinazione: "Londra", stato: "Alle 10:30" },
+      { codice: "DL789", destinazione: "New York", stato: "Alle 12.55" },
+      { codice: "UA101", destinazione: "Chicago", stato: "Alle 14:00" },
+      { codice: "AF202", destinazione: "Parigi", stato: "Alle 15:30" },
+    ];
+
+    const voloDaAggiungere = {
+      codice: "CA303",
+      destinazione: "Pechino",
+      stato: "Alle 17:00",
+    };
+
+    function avanza() {
+      if (voli.length >= 5) {
+        voli.shift();
+      }
+
+      if (voli.length > 0) {
+        voli[0].stato = "IMBARCO";
+      }
+
+      const nuovoVolo = {
+        codice: "UA101",
+        destinazione: "Chicago",
+        stato: "Alle 14:00",
+      };
+      voli.push(nuovoVolo);
+
+      aggiornaTabella();
+    }
+
+    // Restituisce "bold" se lo stato è "IMBARCO", altrimenti "normal"
+    function boldIfImbarco(stato) {
+      if (stato === "IMBARCO") {
+        return "bold";
+      } else {
+        return "normal";
+      }
+    }
+
+    function aggiornaTabella() {
+      const tabellaPartenze = document.getElementById("partenze");
+      let htmlDaInserire = `
+                  <tr>
+                      <th>Codice</th>
+                      <th>Destinazione</th>
+                      <th>Stato</th>
+                  </tr>
+              `;
+
+      for (let i = 0; i < voli.length; i++) {
+        const isImbarco = voli[i].stato === "IMBARCO";
+        htmlDaInserire += `
+                  <tr>
+                      <td>${voli[i].codice}</td>
+                      <td>${voli[i].destinazione}</td>
+                      <td style="font-weight: ${boldIfImbarco(voli[i].stato)}">${voli[i].stato}</td>
+                  </tr>
+                `;
+      }
+      tabellaPartenze.innerHTML = htmlDaInserire;
+    }
+    aggiornaTabella();
+  </script>
+</html>

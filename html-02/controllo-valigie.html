@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .bagaglio {
+        padding: 5px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+      }
+      .riga > * {
+        display: inline-block;
+        vertical-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Controllo Valigie</h1>
+    <button onclick="controlloBagagli()">Controlla Bagagli</button>
+    <div class="riga">
+      <p>OK</p>
+      <div id="bagagli">
+        <div class="bagaglio">
+          <p>15 kg</p>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div>
+      <p>Da Controllare</p>
+      <div id="da-controllare"></div>
+    </div>
+
+    <script>
+      const bagagli = [{ peso: 15 }, { peso: 8 }, { peso: 20 }, { peso: 25 }];
+      const daControllare = [];
+
+      function controlloBagagli() {
+        const bagagliContainer = document.getElementById("bagagli");
+
+        for (let i = 0; i < bagagli.length; i++) {
+          const bagaglio = bagagli[i];
+          if (bagaglio.peso > 23) {
+            daControllare.push(bagaglio);
+            bagagli.splice(i, 1);
+          }
+        }
+
+        aggiornaInterfaccia();
+      }
+
+      function aggiornaInterfaccia() {
+        const bagagliContainer = document.getElementById("bagagli");
+        const daControllareContainer =
+          document.getElementById("da-controllare");
+        bagagliContainer.innerHTML = "";
+        daControllareContainer.innerHTML = "";
+
+        let totaleOk = 0;
+        for (let i = 0; i < bagagli.length; i++) {
+          const bagaglio = bagagli[i];
+          const divBagaglio = document.createElement("div");
+          divBagaglio.className = "bagaglio";
+          divBagaglio.textContent = `${bagaglio.peso}`;
+          bagagliContainer.appendChild(divBagaglio);
+          totaleOk += bagaglio.peso;
+        }
+
+        const totaleOkElement = document.createElement("p");
+        totaleOkElement.textContent = `(${totaleOk} kg)`;
+        bagagliContainer.appendChild(totaleOkElement);
+
+        for (let i = 0; i < daControllare.length; i++) {
+          const bagaglio = daControllare[i];
+          const divBagaglio = document.createElement("div");
+          divBagaglio.className = "bagaglio";
+          divBagaglio.textContent = `${bagaglio.peso}`;
+          daControllareContainer.appendChild(divBagaglio);
+        }
+
+        for (let i = 0; i < bagagli.length; i++) {
+          const bagaglio = bagagli[i];
+          const divBagaglio = bagagliContainer.children[i];
+          divBagaglio.style.backgroundColor = coloraBagaglio(bagaglio);
+        }
+      }
+
+      function coloraBagaglio(bagaglio) {
+        if (bagaglio.peso > 23) {
+          return "red";
+        } else {
+          return "green";
+        }
+      }
+
+      aggiornaInterfaccia();
+    </script>
+  </body>
+</html>

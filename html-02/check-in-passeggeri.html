@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check-in Passeggeri</title>
+  </head>
+  <body>
+    <div id="check-in">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" /><br /><br />
+
+      <label for="cognome">Cognome:</label>
+      <input type="text" id="cognome" name="cognome" /><br /><br />
+
+      <label for="data">Data:</label>
+      <input type="date" id="data" name="data" /><br /><br />
+
+      <button type="submit" onclick="aggiungi()">AGGIUNGI</button>
+    </div>
+
+    <h1>LISTA PASSEGGERI</h1>
+
+    <ul id="lista-passeggeri"></ul>
+
+    <script>
+      function getCodiceNome(nome) {
+        let codice = "";
+        for (let i = 0; i < nome.length; i++) {
+          if (i % 2 === 0) {
+            codice += nome[i];
+          }
+        }
+        return codice;
+      }
+
+      function getCodiceCognome(cognome) {
+        return cognome.slice(0, 3);
+      }
+
+      // Ultime due cifre dell'anno. Controlla il formato della data.
+      function getCodiceData(data) {
+        console.log(data);
+        return data.slice(2, 4);
+      }
+
+      function aggiungi() {
+        const nome = document.getElementById("nome").value;
+        const cognome = document.getElementById("cognome").value;
+        const data = document.getElementById("data").value;
+
+        const codiceNome = getCodiceNome(nome);
+        const codiceCognome = getCodiceCognome(cognome);
+        const codiceData = getCodiceData(data);
+
+        const codicePasseggero = `[${codiceNome}${codiceCognome}${codiceData}] ${nome} ${cognome}`;
+
+        const listaPasseggeri = document.getElementById("lista-passeggeri");
+        const nuovoPasseggero = document.createElement("li");
+        nuovoPasseggero.textContent = codicePasseggero;
+        listaPasseggeri.appendChild(nuovoPasseggero);
+      }
+    </script>
+  </body>
+</html>

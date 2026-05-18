@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partenze Aerei</title>
+  </head>
+  <body>
+    <h1>Partenze Aerei</h1>
+    <table id="partenze" border="1" cellpadding="5" cellspacing="0">
+      <tr>
+        <th>Codice</th>
+        <th>Destinazione</th>
+        <th>Stato</th>
+      </tr>
+      <tr>
+        <td>AZ123</td>
+        <td>Roma</td>
+        <td style="font-weight: bold">IMBARCO</td>
+      </tr>
+    </table>
+    <br />
+    <button onclick="avanza()">Avanza</button>
+  </body>
+  <script>
+    const voli = [
+      { codice: "AZ123", destinazione: "Roma", stato: "IMBARCO" },
+      { codice: "BA456", destinazione: "Londra", stato: "Alle 10:30" },
+      { codice: "DL789", destinazione: "New York", stato: "Alle 12.55" },
+      { codice: "UA101", destinazione: "Chicago", stato: "Alle 14:00" },
+      { codice: "AF202", destinazione: "Parigi", stato: "Alle 15:30" },
+    ];
+
+    const voloDaAggiungere = {
+      codice: "CA303",
+      destinazione: "Pechino",
+      stato: "Alle 17:00",
+    };
+
+    function avanza() {}
+
+    // Restituisce "bold" se lo stato è "IMBARCO", altrimenti "normal"
+    function boldIfImbarco(stato) {}
+
+    function aggiornaTabella() {}
+  </script>
+</html>
