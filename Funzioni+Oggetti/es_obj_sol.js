@@ -40,7 +40,7 @@ const student = {
   getAverage() {
     let total = 0;
     for (let i = 0; i < this.grades.length; i++) {
-      total += this.grades[i];
+      total = total + this.grades[i];
     }
     return total / this.grades.length;
   }
